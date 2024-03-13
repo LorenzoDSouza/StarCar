@@ -1,5 +1,5 @@
 package Entities;
 
-public class Stock {
+public class Sale {
 
 }
