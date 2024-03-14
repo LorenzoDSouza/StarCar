@@ -6,7 +6,13 @@ public class Customer {
 	
 	private String name;
 	private int customer_id;
-	private String cpf;
-	private ArrayList<Sale> purchases;
-
+	
+	
+	public String getName() {
+		return name;
+	}
+	public int getCustomer_id() {
+		return customer_id;
+	}
+	
 }
