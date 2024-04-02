@@ -5,9 +5,12 @@ CREATE TABLE car (
     car_name VARCHAR(100) NOT NULL,
     brand_id INT NOT NULL,
     price DECIMAL(10,2),
-    sold BIT(1),
+    sold BOOLEAN NOT NULL,
     PRIMARY KEY(car_id),
     FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
 );
+
+
+
 
 

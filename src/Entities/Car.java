@@ -5,18 +5,32 @@ public class Car {
 	int car_Id; //primary key
 	int brand_Id; //foreign key
 	String name;
-	String brand_name;
+	double price;
+	byte sold;
 	
-	public Car(int car_Id, int brand_Id, String name) {
+	public Car(int car_Id, String name, int brand_Id, double price, byte sold) {
 		this.brand_Id = brand_Id;
 		this.car_Id = car_Id;
 		this.name = name;
-		
+		this.price = price;
+		this.sold = sold;
 	}
 	
-	public void setBrandName(String brand_name) {
-		this.brand_name = brand_name;
+	
+	public void setCar_Id(int car_Id) {
+		this.car_Id = car_Id;
 	}
+
+
+	public void setBrand_Id(int brand_Id) {
+		this.brand_Id = brand_Id;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public int getCar_Id() {
 		return car_Id;
@@ -30,9 +44,7 @@ public class Car {
 		return name;
 	}
 
-	public String getBrand_name() {
-		return brand_name;
-	}
+	
 	
 	
 }

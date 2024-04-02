@@ -5,11 +5,11 @@ import java.sql.*;
 public class DBConnection {//singleton java
 	
 	private String JDBCdriver;
-	private Connection con;
+	public static Connection connection;
 	private String username;
 	private String password;
 	private String port;
-	private Statement stmt;
+	public static Statement statement;
 	
 	public DBConnection () {
 
@@ -19,8 +19,8 @@ public class DBConnection {//singleton java
 		this.port = "3306";
 		
 		try{
-			this.con = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/carros", username, password);
-			this.stmt = con.createStatement();
+			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/carros", username, password);
+			this.statement = connection.createStatement();
 			System.out.println("DB Connected with succes!");
 		} catch (Exception e){
 			System.out.println("Couldn't connect to the Data Base. Error: " + e.getMessage());

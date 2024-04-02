@@ -1,0 +1,457 @@
+[
+	{
+		"car_id" : 1,
+		"car_name" : "Civic",
+		"brand_id" : 1,
+		"price" : 25000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 2,
+		"car_name" : "Accord",
+		"brand_id" : 1,
+		"price" : 30000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 3,
+		"car_name" : "CR-V",
+		"brand_id" : 1,
+		"price" : 28000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 4,
+		"car_name" : "Pilot",
+		"brand_id" : 1,
+		"price" : 35000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 5,
+		"car_name" : "Odyssey",
+		"brand_id" : 1,
+		"price" : 32000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 6,
+		"car_name" : "Camry",
+		"brand_id" : 2,
+		"price" : 27000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 7,
+		"car_name" : "Corolla",
+		"brand_id" : 2,
+		"price" : 22000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 8,
+		"car_name" : "RAV4",
+		"brand_id" : 2,
+		"price" : 29000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 9,
+		"car_name" : "Highlander",
+		"brand_id" : 2,
+		"price" : 35000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 10,
+		"car_name" : "Prius",
+		"brand_id" : 2,
+		"price" : 25000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 11,
+		"car_name" : "Altima",
+		"brand_id" : 3,
+		"price" : 26000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 12,
+		"car_name" : "Sentra",
+		"brand_id" : 3,
+		"price" : 22000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 13,
+		"car_name" : "Rogue",
+		"brand_id" : 3,
+		"price" : 28000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 14,
+		"car_name" : "Maxima",
+		"brand_id" : 3,
+		"price" : 34000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 15,
+		"car_name" : "Pathfinder",
+		"brand_id" : 3,
+		"price" : 33000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 16,
+		"car_name" : "Mustang",
+		"brand_id" : 4,
+		"price" : 32000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 17,
+		"car_name" : "F-150",
+		"brand_id" : 4,
+		"price" : 40000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 18,
+		"car_name" : "Focus",
+		"brand_id" : 4,
+		"price" : 22000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 19,
+		"car_name" : "Escape",
+		"brand_id" : 4,
+		"price" : 28000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 20,
+		"car_name" : "Explorer",
+		"brand_id" : 4,
+		"price" : 35000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 21,
+		"car_name" : "Silverado",
+		"brand_id" : 5,
+		"price" : 38000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 22,
+		"car_name" : "Malibu",
+		"brand_id" : 5,
+		"price" : 27000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 23,
+		"car_name" : "Equinox",
+		"brand_id" : 5,
+		"price" : 30000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 24,
+		"car_name" : "Traverse",
+		"brand_id" : 5,
+		"price" : 34000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 25,
+		"car_name" : "Tahoe",
+		"brand_id" : 5,
+		"price" : 50000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 26,
+		"car_name" : "Model S",
+		"brand_id" : 6,
+		"price" : 80000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 27,
+		"car_name" : "Model 3",
+		"brand_id" : 6,
+		"price" : 50000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 28,
+		"car_name" : "Model X",
+		"brand_id" : 6,
+		"price" : 90000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 29,
+		"car_name" : "Model Y",
+		"brand_id" : 6,
+		"price" : 55000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 30,
+		"car_name" : "Cybertruck",
+		"brand_id" : 6,
+		"price" : 70000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 31,
+		"car_name" : "Wrangler",
+		"brand_id" : 7,
+		"price" : 35000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 32,
+		"car_name" : "Cherokee",
+		"brand_id" : 7,
+		"price" : 30000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 33,
+		"car_name" : "Grand Cherokee",
+		"brand_id" : 7,
+		"price" : 40000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 34,
+		"car_name" : "Renegade",
+		"brand_id" : 7,
+		"price" : 25000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 35,
+		"car_name" : "Compass",
+		"brand_id" : 7,
+		"price" : 27000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 36,
+		"car_name" : "3 Series",
+		"brand_id" : 8,
+		"price" : 45000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 37,
+		"car_name" : "5 Series",
+		"brand_id" : 8,
+		"price" : 55000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 38,
+		"car_name" : "X3",
+		"brand_id" : 8,
+		"price" : 47000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 39,
+		"car_name" : "X5",
+		"brand_id" : 8,
+		"price" : 65000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 40,
+		"car_name" : "7 Series",
+		"brand_id" : 8,
+		"price" : 80000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 41,
+		"car_name" : "911",
+		"brand_id" : 9,
+		"price" : 90000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 42,
+		"car_name" : "Cayenne",
+		"brand_id" : 9,
+		"price" : 80000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 43,
+		"car_name" : "Macan",
+		"brand_id" : 9,
+		"price" : 60000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 44,
+		"car_name" : "Panamera",
+		"brand_id" : 9,
+		"price" : 95000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 45,
+		"car_name" : "Taycan",
+		"brand_id" : 9,
+		"price" : 100000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 46,
+		"car_name" : "A4",
+		"brand_id" : 10,
+		"price" : 40000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 47,
+		"car_name" : "A6",
+		"brand_id" : 10,
+		"price" : 50000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 48,
+		"car_name" : "Q5",
+		"brand_id" : 10,
+		"price" : 45000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 49,
+		"car_name" : "Q7",
+		"brand_id" : 10,
+		"price" : 60000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 50,
+		"car_name" : "TT",
+		"brand_id" : 10,
+		"price" : 55000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 51,
+		"car_name" : "C-Class",
+		"brand_id" : 11,
+		"price" : 45000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 52,
+		"car_name" : "E-Class",
+		"brand_id" : 11,
+		"price" : 55000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 53,
+		"car_name" : "GLE",
+		"brand_id" : 11,
+		"price" : 60000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 54,
+		"car_name" : "S-Class",
+		"brand_id" : 11,
+		"price" : 90000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 55,
+		"car_name" : "GLC",
+		"brand_id" : 11,
+		"price" : 48000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 56,
+		"car_name" : "488 GTB",
+		"brand_id" : 12,
+		"price" : 300000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 57,
+		"car_name" : "F8 Tributo",
+		"brand_id" : 12,
+		"price" : 350000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 58,
+		"car_name" : "Portofino",
+		"brand_id" : 12,
+		"price" : 250000.00,
+		"sold" : 1
+	},
+	{
+		"car_id" : 59,
+		"car_name" : "Roma",
+		"brand_id" : 12,
+		"price" : 350000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 60,
+		"car_name" : "SF90 Stradale",
+		"brand_id" : 12,
+		"price" : 600000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 61,
+		"car_name" : "Aventador",
+		"brand_id" : 13,
+		"price" : 400000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 62,
+		"car_name" : "Huracan",
+		"brand_id" : 13,
+		"price" : 250000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 63,
+		"car_name" : "Urus",
+		"brand_id" : 13,
+		"price" : 250000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 64,
+		"car_name" : "Gallardo",
+		"brand_id" : 13,
+		"price" : 300000.00,
+		"sold" : 0
+	},
+	{
+		"car_id" : 65,
+		"car_name" : "Diablo",
+		"brand_id" : 13,
+		"price" : 500000.00,
+		"sold" : 0
+	}
+]
