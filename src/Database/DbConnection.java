@@ -1,8 +1,8 @@
-package DataBase;
+package Database;
 
 import java.sql.*; 
 
-public class DBConnection {//singleton java
+public class DbConnection {//singleton java
 	
 	private String JDBCdriver;
 	public static Connection connection;
@@ -11,7 +11,7 @@ public class DBConnection {//singleton java
 	private String port;
 	public static Statement statement;
 	
-	public DBConnection () {
+	public DbConnection () {
 
 		this.JDBCdriver = "com.mysql.jdbc.Driver";
 		this.username = "root";

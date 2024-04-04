@@ -1,4 +1,4 @@
-package DataBase;
+package Database;
 
 import java.util.*;
 import java.util.ArrayList;
@@ -7,15 +7,21 @@ import Entities.*;
 
 public class Querrys {
 
-	public ArrayList<Car> selectCars(Statement statement) {
+	private DbConnection connection;
+
+	public Querrys() {
+		connection = new DbConnection();
+	}
+
+	public ArrayList<Car> selectCars() {
 
 		ArrayList<Car> result = new ArrayList<Car>();
 		String querrySelect = "SELECT * FROM car WHERE car_id = 1";
 
 		try {
-			ResultSet resultSet = statement.executeQuery(querrySelect);
+			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
 
-			for (int index = 1; resultSet.next(); index++) {
+			while (resultSet.next()) {
 
 				if (resultSet.getBoolean(5) == false) {
 
@@ -25,8 +31,8 @@ public class Querrys {
 					double price = resultSet.getDouble(4);
 					boolean sold = resultSet.getBoolean(5);
 
-					Car carX = new Car(car_Id, car_name, brand_Id, price, sold);
-					result.add(carX);
+					Car car = new Car(car_Id, car_name, brand_Id, price, sold);
+					result.add(car);
 				}
 			}
 
@@ -38,13 +44,13 @@ public class Querrys {
 		return result;
 	}
 
-	public ArrayList<Customer> selectCustomer(Statement statement) {
+	public ArrayList<Customer> selectCustomer() {
 
 		ArrayList<Customer> result = new ArrayList<Customer>();
 		String querrySelect = "SELECT * FROM customer WHERE customer_id  = 1";
 
 		try {
-			ResultSet resultSet = statement.executeQuery(querrySelect);
+			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
 
 			for (int index = 1; resultSet.next(); index++) {
 				int customer_id = resultSet.getInt(1);
@@ -62,13 +68,13 @@ public class Querrys {
 		return result;
 	}
 
-	public ArrayList<SalesPerson> selectSalesPerson(Statement statement) {
+	public ArrayList<SalesPerson> selectSalesPerson() {
 
 		ArrayList<SalesPerson> result = new ArrayList<SalesPerson>();
 		String querrySelect = "SELECT * FROM customer WHERE salesPerson_id = 1";
 
 		try {
-			ResultSet resultSet = statement.executeQuery(querrySelect);
+			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
 
 			for (int index = 1; resultSet.next(); index++) {
 				int salesPerson_id = resultSet.getInt(4);
@@ -86,22 +92,20 @@ public class Querrys {
 
 		return result;
 	}
-	
-	//above ar all the querrys to import into object arrays
-	
-	public boolean removeCarFromTable(Car car, Statement statement) {
+
+	// above ar all the querrys to import into object arrays
+
+	public boolean removeCarFromTable(Car car) {
 		try {
-			String querry = "DELETE FROM car WHERE car_id = " + car.getCar_Id();
-			
-			
+			String querryDelete = "DELETE FROM car WHERE car_id = " + car.getCar_Id();
+			ResultSet resultSet = connection.statement.executeQuery(querryDelete);
 			
 			return true;
-		} catch(Exception e) {
+		} catch (Exception e) {
+			System.out.println("Couldn't remove the car from the table! chec");
 			
 			return false;
 		}
 	}
-	
-	
 
 }
