@@ -8,13 +8,27 @@ public class Car {
 	double price;
 	boolean sold;
 
-	public Car(int car_Id, String name, int brand_Id, double price, boolean sold) {
+	private Car(int car_Id, String name, int brand_Id, double price) {
 		this.brand_Id = brand_Id;
 		this.car_Id = car_Id;
 		this.name = name;
 		this.price = price;
-		this.sold = sold;
 	}
+	
+	private Car(String name, int brand_Id, double price) {
+		this.brand_Id = brand_Id;
+		this.name = name;
+		this.price = price;
+	}
+	
+	public static Car create(int car_Id, String name, int brand_Id, double price) {
+		return new Car(car_Id, name, brand_Id, price);
+	}
+	
+	public static Car create(String name, int brand_Id, double price) {
+		return new Car(name, brand_Id, price);
+	}
+	
 
 	public void setCar_Id(int car_Id) {
 		this.car_Id = car_Id;
@@ -47,5 +61,11 @@ public class Car {
 	public void setSold(boolean sold) {
 		this.sold = sold;
 	}
+
+	public double getPrice() {
+		return price;
+	}
+	
+	
 
 }

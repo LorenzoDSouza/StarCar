@@ -23,6 +23,22 @@ public class CarsRepository {
 		stock = getAllCars();
 	}
 
+	public Car createCarLogic(ResultSet resultSet) {
+
+		try {
+			int car_Id = resultSet.getInt(1);
+			String car_name = resultSet.getString(2);
+			int brand_Id = resultSet.getInt(3);
+			double price = resultSet.getDouble(4);
+
+			Car car = Car.create(car_Id, car_name, brand_Id, price);
+
+			return car;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 	public ArrayList<Car> getAllCars() {
 		ArrayList<Car> allCars = new ArrayList<Car>();
 		String querrySelect = "SELECT * FROM car WHERE car_id = 1";
@@ -33,13 +49,7 @@ public class CarsRepository {
 			while (resultSet.next()) {
 
 				if (resultSet.getBoolean(5) == false) {
-					int car_Id = resultSet.getInt(1);
-					String car_name = resultSet.getString(2);
-					int brand_Id = resultSet.getInt(3);
-					double price = resultSet.getDouble(4);
-					boolean sold = resultSet.getBoolean(5);
-
-					Car car = new Car(car_Id, car_name, brand_Id, price, sold);
+					Car car = createCarLogic(resultSet);
 					allCars.add(car);
 				}
 			}
@@ -48,19 +58,41 @@ public class CarsRepository {
 		}
 		return allCars;
 	}
-	
+
 	public Car register(Car carParam) {
+		String addValueQuerry = "INSERT INTO car (car_name, brand_id, price) VALUES (" + carParam.getName() + ", "
+				+ carParam.getBrand_Id() + ", " + carParam.getPrice() + ")";
+		String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1";
+		
 		try {
-			
 			stock.add(carParam);
-			//querry to add the car
+			// querry to add the car
+			ResultSet resultSetAddValue = connection.statement.executeQuery(addValueQuerry);
 			
+			ResultSet resultSetGetLastValue = connection.statement.executeQuery(getLastCarQuerry);
 			
+			Car car = createCarLogic(resultSetGetLastValue);
 			return car;
+			
+		} catch (SQLException e) {
+			return null;
+		}
+
+	}
+
+	public Car getById(int id) {
+		try {
+			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
+			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
+			
+			Car car = createCarLogic(resultSet);
+			
+			return car;			
 		} catch (Exception e) {
-			System.out.println("Couldn't add the car (Id: " + car.getCar_Id() + ") to stock!");
-			valid = false;
+			return null;
 		}
 	}
+	
+	
 
 }

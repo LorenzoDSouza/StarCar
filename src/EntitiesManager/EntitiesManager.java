@@ -16,7 +16,7 @@ public class EntitiesManager { //manage the tables from the db and put into arra
 	public ArrayList<Customer> customers; 
 	public ArrayList<SalesPerson> staff;
 	public ArrayList<Sale> sales;
-	public Querrys querrys;
+	
 	
 	public EntitiesManager() {
 		
@@ -26,7 +26,7 @@ public class EntitiesManager { //manage the tables from the db and put into arra
 		boolean valid;
 		try {
 			stock.remove(car);
-			querrys.removeCarFromTable(car);
+			//removeCarFromTable
 			valid = true;
 		} catch (Exception e) {
 			System.out.println("Couldn't remove the car (Id: " + car.getCar_Id() + ") from stock!");
