@@ -15,6 +15,10 @@ public class Car {
 		this.price = price;
 	}
 	
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	private Car(String name, int brand_Id, double price) {
 		this.brand_Id = brand_Id;
 		this.name = name;

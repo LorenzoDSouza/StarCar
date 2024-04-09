@@ -12,8 +12,8 @@ public class CarsRepository {
 	// get all cars <
 	// register car <
 	// get car by id <
-	// update car by id 
-	// delete car by id
+	// update car by id !!
+	// delete car by id <
 
 	private DbConnection connection;
 	private ArrayList<Car> stock;
@@ -63,45 +63,76 @@ public class CarsRepository {
 		String addValueQuerry = "INSERT INTO car (car_name, brand_id, price) VALUES (" + carParam.getName() + ", "
 				+ carParam.getBrand_Id() + ", " + carParam.getPrice() + ")";
 		String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1";
-		
+
 		try {
 			stock.add(carParam);
 			// querry to add the car
 			ResultSet resultSetAddValue = connection.statement.executeQuery(addValueQuerry);
-			
+
 			ResultSet resultSetGetLastValue = connection.statement.executeQuery(getLastCarQuerry);
-			
+
 			Car car = createCarLogic(resultSetGetLastValue);
+
+			stock.add(carParam);
 			return car;
-			
+
 		} catch (SQLException e) {
 			return null;
 		}
 
 	}
 
-	public Car getById(int id) {
+	public Car getById(int id) {// maybe could do it with consult at the stock
+								// to verify by returning, should make a doublw verification in th database and
+								// in the stock!!! (very importannt)
 		try {
 			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
 			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
-			
+
 			Car car = createCarLogic(resultSet);
-			
-			return car;			
+
+			return car;
 		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	public boolean deleteById(int id) {
 		try {
 			String deleteByIdQuerry = "DELETE * FROM car WHERE car_id = " + id;
 			ResultSet resultSet = connection.statement.executeQuery(deleteByIdQuerry);
-			
-			return true;			
+
+			boolean removed = false;
+			for (int index = 0; index < stock.size() || removed == true; index++) {
+				if (stock.get(index).getCar_Id() == id) {
+					stock.remove(index);
+					removed = true;
+				}
+
+			}
+
+			return true;
 		} catch (Exception e) {
+			System.out.println("Couldn't delete the car in the database.");
 			return false;
 		}
 	}
 
+	public Car updatePrice(double new_price, Car car) {
+		int car_id = car.getCar_Id();
+		String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
+		
+		try {
+			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
+			stock.get(stock.indexOf(car)).setPrice(new_price);
+			
+			if (getById(car_id).getPrice() == new_price/*here could be done a double verification in the stock*/) {
+				return getById(car_id);
+			} else {
+				throw new DomainException e = new DomainException("Coulndt update the price");
+			}
+		} catch (e){
+			e.printMessage();
+		}
+	}
 }
