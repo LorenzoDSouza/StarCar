@@ -10,9 +10,9 @@ import Entities.Car;
 public class CarsRepository {
 
 	// get all cars <
-	// register car
-	// get car by id
-	// update car by id
+	// register car <
+	// get car by id <
+	// update car by id 
 	// delete car by id
 
 	private DbConnection connection;
@@ -93,6 +93,15 @@ public class CarsRepository {
 		}
 	}
 	
-	
+	public boolean deleteById(int id) {
+		try {
+			String deleteByIdQuerry = "DELETE * FROM car WHERE car_id = " + id;
+			ResultSet resultSet = connection.statement.executeQuery(deleteByIdQuerry);
+			
+			return true;			
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 }
