@@ -150,4 +150,63 @@ public class CarsRepository {
 			return null;
 		}
 	}
+
+	public boolean getSoldValueByDatabase(Car car) {
+		
+		try {
+		if (car != null) {
+			throw new AppException("The car is invalid!");
+			}
+		
+		int car_id = car.getCar_Id();
+		String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
+		
+		ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
+		boolean sold = resultSet.getBoolean("sold");
+		
+		return sold;
+		} catch (AppException e){
+			System.out.println(e.getMessage());
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("There was a problem with the querry in the database.");
+			return false;
+		}
+	}
+
+	public Car updateToSold(Car car) {
+		try {
+			if (car != null) {
+				throw new AppException("The car is invalid!");
+			}
+
+			if (stock.contains(car) != true) {
+				throw new AppException("The car isn't in the stock!");
+			}
+			int car_id = car.getCar_Id();
+			String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
+			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
+			
+			stock.remove(stock.indexOf(car));
+			
+			car.setSold(true);
+			
+			if(stock.contains(car) == true && getSoldValueByDatabase(car) == true) {
+				return car;
+			} else {
+				throw new AppException("There was a problem to set the car to sold!");
+			}
+
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database!");
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update to sold.");
+			return null;
+		}
+	}
 }
