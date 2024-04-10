@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import Database.DbConnection;
 import Entities.Car;
+import Exceptions.AppException;
 
 public class CarsRepository {
 
@@ -98,17 +99,17 @@ public class CarsRepository {
 	}
 
 	public boolean deleteById(int id) {
+		String deleteByIdQuerry = "DELETE * FROM car WHERE car_id = " + id;
+		boolean removed = false;
+
 		try {
-			String deleteByIdQuerry = "DELETE * FROM car WHERE car_id = " + id;
 			ResultSet resultSet = connection.statement.executeQuery(deleteByIdQuerry);
 
-			boolean removed = false;
 			for (int index = 0; index < stock.size() || removed == true; index++) {
 				if (stock.get(index).getCar_Id() == id) {
 					stock.remove(index);
 					removed = true;
 				}
-
 			}
 
 			return true;
@@ -119,20 +120,34 @@ public class CarsRepository {
 	}
 
 	public Car updatePrice(double new_price, Car car) {
-		int car_id = car.getCar_Id();
-		String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
-		
 		try {
-			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
-			stock.get(stock.indexOf(car)).setPrice(new_price);
-			
-			if (getById(car_id).getPrice() == new_price/*here could be done a double verification in the stock*/) {
-				return getById(car_id);
-			} else {
-				throw new DomainException e = new DomainException("Coulndt update the price");
+			if (car != null) {
+				throw new AppException("The car is invalid!");
 			}
-		} catch (e){
-			e.printMessage();
+			if (new_price < 0) {
+				throw new AppException("The price is invalid!");
+			}
+
+			int car_id = car.getCar_Id();
+			String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
+			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
+
+			stock.get(stock.indexOf(car)).setPrice(new_price);
+
+			if (getById(car_id).getPrice() == new_price && stock.get(stock.indexOf(car)).getPrice() == new_price) {
+				return stock.get(stock.indexOf(car));
+			} else {
+				throw new AppException("Couldnt update the price of the car.");
+			}
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database!");
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update price!");
+			return null;
 		}
 	}
 }
