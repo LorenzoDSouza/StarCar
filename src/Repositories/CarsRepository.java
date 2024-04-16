@@ -209,4 +209,38 @@ public class CarsRepository {
 			return null;
 		}
 	}
+	
+	public Car updateName(String new_name, Car car) {
+		try {
+			if (car != null) {
+				throw new AppException("The car is invalid!");
+			}
+			if (new_name != null) {
+				throw new AppException("The name is invalid!");
+			}
+
+			int car_id = car.getCar_Id();
+			String updateNameQuerry = "UPDATE car SET name = " + new_name + " WHERE car_id = " + car_id;
+			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updateNameQuerry);
+
+			stock.get(stock.indexOf(car)).setName(new_name);
+
+			if (getById(car_id).getName() == new_name && stock.get(stock.indexOf(car)).getName() == new_name) {
+				return stock.get(stock.indexOf(car));
+			} else {
+				throw new AppException("Couldnt update the car name.");
+			}
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database!");
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update the car name!");
+			return null;
+		}
+	}
+	
+	
 }
