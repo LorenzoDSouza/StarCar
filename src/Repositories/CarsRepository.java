@@ -19,20 +19,20 @@ public class CarsRepository {
 	private DbConnection connection;
 	private ArrayList<Car> stock;
 
-	public CarsRepository() {
-		connection = new DbConnection();
+	public CarsRepository(String database) {
+		connection = new DbConnection(database);
 		stock = getAllCars();
 	}
 
 	public Car createCarLogic(ResultSet resultSet) {
 
 		try {
-			int car_Id = resultSet.getInt(1);
-			String car_name = resultSet.getString(2);
-			int brand_Id = resultSet.getInt(3);
-			double price = resultSet.getDouble(4);
+			int car_id = resultSet.getInt("car_id");
+	        String car_name = resultSet.getString("car_name");
+	        int brand_id = resultSet.getInt("brand_id");
+	        double price = resultSet.getDouble("price");
 
-			Car car = Car.create(car_Id, car_name, brand_Id, price);
+			Car car = Car.create(car_id, car_name, brand_id, price);
 
 			return car;
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class CarsRepository {
 
 	public ArrayList<Car> getAllCars() {
 		ArrayList<Car> allCars = new ArrayList<Car>();
-		String querrySelect = "SELECT * FROM car WHERE car_id = 1";
+		String querrySelect = "SELECT * FROM car";
 
 		try {
 			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
@@ -59,10 +59,14 @@ public class CarsRepository {
 		}
 		return allCars;
 	}
+	
+	public ArrayList<Car> getStock(){
+		return stock;
+	}
 
 	public Car register(Car carParam) {
-		String addValueQuerry = "INSERT INTO car (car_name, brand_id, price) VALUES (" + carParam.getName() + ", "
-				+ carParam.getBrand_Id() + ", " + carParam.getPrice() + ")";
+		String addValueQuerry = "INSERT INTO car (car_name, brand_id, price, sold) VALUES (" + carParam.getName() + ", "
+				+ carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
 		String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1";
 
 		try {
@@ -90,10 +94,18 @@ public class CarsRepository {
 			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
 			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
 
-			Car car = createCarLogic(resultSet);
-
-			return car;
+			if (resultSet.next()) {
+	            Car car = createCarLogic(resultSet);
+	            return car;
+	        } else {
+	            return null;
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error while getting car by ID: " + e.getMessage());
+	        return null;
+	    
 		} catch (Exception e) {
+			System.out.println("Couldnt get the car in the database: " + e.getMessage());
 			return null;
 		}
 	}
@@ -210,6 +222,7 @@ public class CarsRepository {
 		}
 	}
 	
+	
 	public Car updateName(String new_name, Car car) {
 		try {
 			if (car != null) {
@@ -238,6 +251,32 @@ public class CarsRepository {
 			return null;
 		} catch (RuntimeException e) {
 			System.out.println("Couldnt update the car name!");
+			return null;
+		}
+	}
+	
+	public Car getLastCarDb() {
+		try {
+			String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1;";
+			
+			ResultSet resultSet = connection.statement.executeQuery(getLastCarQuerry);
+			
+			
+			if(resultSet.next()) {
+			Car lastCar = createCarLogic(resultSet);
+			return lastCar;
+			} else {
+				throw new AppException("The table is empty");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("There was a problem to execute the querry: " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the car: " + e.getMessage());
+			return null;
+		} catch (AppException e) {
+			System.out.println("There was a problem to get the car: " + e.getMessage());
 			return null;
 		}
 	}

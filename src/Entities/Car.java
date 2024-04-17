@@ -33,6 +33,9 @@ public class Car {
 		return new Car(name, brand_Id, price);
 	}
 	
+	public String toString() {
+		return "Name: " + name + " | Car Id: " + car_Id + " | Brand Id: " + brand_Id + " | Price: $" + price;
+	}
 
 	public void setCar_Id(int car_Id) {
 		this.car_Id = car_Id;
