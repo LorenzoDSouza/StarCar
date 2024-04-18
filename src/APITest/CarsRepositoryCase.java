@@ -19,7 +19,8 @@ class CarsRepositoryCase {
 	
 	@BeforeEach
 	void setUp() {
-		
+		Car car1 = Car.create("Civic Type R" , 1, 44.890);
+		carsRepository.register(car1);
 	}
 	
 	@After
@@ -34,10 +35,7 @@ class CarsRepositoryCase {
 	
 	@Test
 	void registerNewCarTest() {
-		Car car1 = Car.create("Civic Type R" , 1, 44.890);
-		carsRepository.register(car1);
-		
-		assertEquals(66, carsRepository.getLastCarDb().getCar_Id());
+		assertEquals("Civic Type R", carsRepository.getLastCarDb().getName());
 	}
 	
 
