@@ -66,23 +66,25 @@ public class CarsRepository {
 	}
 
 	public Car register(Car carParam) {
-		String addValueQuerry = "INSERT INTO car (car_name, brand_id, price, sold) VALUES (" + carParam.getName() + ", "
-				+ carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
+	    String addValueQuery = "INSERT INTO car (car_name, brand_id, price, sold) VALUES ('" + carParam.getName() + "', "
+	            + carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
 
-		try {
-			// querry to add the car
-			connection.statement.executeUpdate(addValueQuerry);
+	    try {
+	        // Execute the insertion query
+	        connection.statement.executeUpdate(addValueQuery);
 
-			Car car = getLastCarDb();
+	        // Get the last inserted car
+	        Car car = getLastCarDb();
 
-			stock.add(carParam);
+	        // Add the car to the stock
+	        stock.add(car);
 
-			return car;
+	        return car;
 
-		} catch (SQLException e) {
-			return null;
-		}
-
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 
 	public Car getById(int id) {// maybe could do it with consult at the stock
@@ -113,7 +115,7 @@ public class CarsRepository {
 		boolean removed = false;
 
 		try {
-			ResultSet resultSet = connection.statement.executeQuery(deleteByIdQuerry);
+			connection.statement.executeUpdate(deleteByIdQuerry);
 
 			for (int index = 0; index < stock.size() || removed == true; index++) {
 				if (stock.get(index).getCar_Id() == id) {
@@ -121,6 +123,19 @@ public class CarsRepository {
 					removed = true;
 				}
 			}
+
+			return true;
+		} catch (Exception e) {
+			System.out.println("Couldn't delete the car in the database.");
+			return false;
+		}
+	}
+	
+	public boolean deleteLastCar() {
+		String deleteLastCar = "DELETE FROM car ORDER BY car_id DESC LIMIT 1";
+		
+		try {
+			connection.statement.executeUpdate(deleteLastCar);
 
 			return true;
 		} catch (Exception e) {
@@ -140,7 +155,7 @@ public class CarsRepository {
 
 			int car_id = car.getCar_Id();
 			String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
-			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
+			connection.statement.executeUpdate(updatePriceQuerry);
 
 			stock.get(stock.indexOf(car)).setPrice(new_price);
 
@@ -196,7 +211,7 @@ public class CarsRepository {
 			}
 			int car_id = car.getCar_Id();
 			String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
-			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
+			connection.statement.executeUpdate(updatePriceQuerry);
 
 			stock.remove(stock.indexOf(car));
 
@@ -276,5 +291,8 @@ public class CarsRepository {
 			return null;
 		}
 	}
+	
+	
+	
 
 }

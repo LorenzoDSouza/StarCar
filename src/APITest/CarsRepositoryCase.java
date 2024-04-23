@@ -20,12 +20,12 @@ class CarsRepositoryCase {
 	@BeforeEach
 	void setUp() {
 		Car car1 = Car.create("Civic Type R" , 1, 44.890);
-		System.out.println(carsRepository.register(car1));
+		carsRepository.register(car1);
 	}
 	
 	@After
 	void tearDown() {
-		
+		carsRepository.deleteLastCar();
 	}
 	
 	@Test
