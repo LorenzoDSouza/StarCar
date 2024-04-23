@@ -144,7 +144,7 @@ public class CarsRepository {
 		}
 	}
 
-	public Car updatePrice(double new_price, Car car) {
+	public Car updatePrice(double new_price, Car car) {//this method might be remade, cause its not working
 		try {
 			if (car != null) {
 				throw new AppException("The car is invalid!");
@@ -267,7 +267,7 @@ public class CarsRepository {
 		}
 	}
 
-	public Car getLastCarDb() {
+	public Car getLastCarDb() {//method for during using implementation
 		try {
 			String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1;";
 
@@ -292,7 +292,27 @@ public class CarsRepository {
 		}
 	}
 	
+	public int getLastId() {//method for database and during use implemenmtation
+		String getLastId = "SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1";
+		try {
+			ResultSet resulSet = connection.statement.executeQuery(getLastId);
+			return resulSet.getInt("car_id");
+		} catch (SQLException e) {
+			System.out.println("Couldn't execute the querry: " + e.getMessage());
+			return 0;
+		}
+		
+	}
 	
+	public boolean updateStock() {
+		try{
+			stock = getAllCars();
+			return true;
+		} catch(RuntimeException e) {
+			System.out.println("Coulnd't update the stock: "+ e.getMessage());
+			return false;
+		}
+	}
 	
 
 }
