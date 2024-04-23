@@ -1,5 +1,6 @@
 package Repositories;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class CarsRepository {
 
 		try {
 			int car_id = resultSet.getInt("car_id");
-	        String car_name = resultSet.getString("car_name");
-	        int brand_id = resultSet.getInt("brand_id");
-	        double price = resultSet.getDouble("price");
+			String car_name = resultSet.getString("car_name");
+			int brand_id = resultSet.getInt("brand_id");
+			double price = resultSet.getDouble("price");
 
 			Car car = Car.create(car_id, car_name, brand_id, price);
 
@@ -59,26 +60,23 @@ public class CarsRepository {
 		}
 		return allCars;
 	}
-	
-	public ArrayList<Car> getStock(){
+
+	public ArrayList<Car> getStock() {
 		return stock;
 	}
 
 	public Car register(Car carParam) {
 		String addValueQuerry = "INSERT INTO car (car_name, brand_id, price, sold) VALUES (" + carParam.getName() + ", "
 				+ carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
-		String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1";
 
 		try {
-			stock.add(carParam);
 			// querry to add the car
-			ResultSet resultSetAddValue = connection.statement.executeQuery(addValueQuerry);
+			connection.statement.executeUpdate(addValueQuerry);
 
-			ResultSet resultSetGetLastValue = connection.statement.executeQuery(getLastCarQuerry);
-
-			Car car = createCarLogic(resultSetGetLastValue);
+			Car car = getLastCarDb();
 
 			stock.add(carParam);
+
 			return car;
 
 		} catch (SQLException e) {
@@ -95,15 +93,15 @@ public class CarsRepository {
 			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
 
 			if (resultSet.next()) {
-	            Car car = createCarLogic(resultSet);
-	            return car;
-	        } else {
-	            return null;
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("Error while getting car by ID: " + e.getMessage());
-	        return null;
-	    
+				Car car = createCarLogic(resultSet);
+				return car;
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			System.out.println("Error while getting car by ID: " + e.getMessage());
+			return null;
+
 		} catch (Exception e) {
 			System.out.println("Couldnt get the car in the database: " + e.getMessage());
 			return null;
@@ -164,20 +162,20 @@ public class CarsRepository {
 	}
 
 	public boolean getSoldValueByDatabase(Car car) {
-		
+
 		try {
-		if (car != null) {
-			throw new AppException("The car is invalid!");
+			if (car != null) {
+				throw new AppException("The car is invalid!");
 			}
-		
-		int car_id = car.getCar_Id();
-		String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
-		
-		ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
-		boolean sold = resultSet.getBoolean("sold");
-		
-		return sold;
-		} catch (AppException e){
+
+			int car_id = car.getCar_Id();
+			String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
+
+			ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
+			boolean sold = resultSet.getBoolean("sold");
+
+			return sold;
+		} catch (AppException e) {
 			System.out.println(e.getMessage());
 			return false;
 		} catch (SQLException e) {
@@ -199,12 +197,12 @@ public class CarsRepository {
 			int car_id = car.getCar_Id();
 			String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
 			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updatePriceQuerry);
-			
+
 			stock.remove(stock.indexOf(car));
-			
+
 			car.setSold(true);
-			
-			if(stock.contains(car) == true && getSoldValueByDatabase(car) == true) {
+
+			if (stock.contains(car) == true && getSoldValueByDatabase(car) == true) {
 				return car;
 			} else {
 				throw new AppException("There was a problem to set the car to sold!");
@@ -221,8 +219,7 @@ public class CarsRepository {
 			return null;
 		}
 	}
-	
-	
+
 	public Car updateName(String new_name, Car car) {
 		try {
 			if (car != null) {
@@ -254,21 +251,20 @@ public class CarsRepository {
 			return null;
 		}
 	}
-	
+
 	public Car getLastCarDb() {
 		try {
 			String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1;";
-			
+
 			ResultSet resultSet = connection.statement.executeQuery(getLastCarQuerry);
-			
-			
-			if(resultSet.next()) {
-			Car lastCar = createCarLogic(resultSet);
-			return lastCar;
+
+			if (resultSet.next()) {
+				Car lastCar = createCarLogic(resultSet);
+				return lastCar;
 			} else {
 				throw new AppException("The table is empty");
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("There was a problem to execute the querry: " + e.getMessage());
 			return null;
@@ -280,6 +276,5 @@ public class CarsRepository {
 			return null;
 		}
 	}
-	
-	
+
 }
