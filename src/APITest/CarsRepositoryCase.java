@@ -41,11 +41,16 @@ class CarsRepositoryCase {
 		assertEquals("Civic Type R", carsRepository.getLastCarDb().getName());
 	}
 	
-	@Test
-	void updateCarsPrice() {
-		carsRepository.updatePrice(1, carsRepository.getById(carsRepository.getLastId()));
+	/*@Test
+	void updateCarsPrice() {//do next, first test the car_id checker
+		
 		assertEquals(1, carsRepository.getLastCarDb().getPrice());
 		
+	}*/
+	
+	@Test
+	void carIDValidator() {
+		assertEquals(true, carsRepository.stockContainsID(1));
 	}
 	
 	

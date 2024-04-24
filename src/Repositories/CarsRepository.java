@@ -49,11 +49,8 @@ public class CarsRepository {
 			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
 
 			while (resultSet.next()) {
-
-				if (resultSet.getBoolean(5) == false) {
 					Car car = createCarLogic(resultSet);
 					allCars.add(car);
-				}
 			}
 		} catch (SQLException e) {
 			System.out.println("Couldn't execute querry! The value position is invalid or the datatype missmatch.");
@@ -144,10 +141,10 @@ public class CarsRepository {
 		}
 	}
 
-	public Car updatePrice(double new_price, int car_id) {//this method might be remade, cause its not working
+	public Car updatePrice(double new_price, int car_id) {//this method might be remade, cause its not working. need to chabge the car fo car_id (integer)
 		try {
-			if (car_id > 0) {
-				throw new AppException("The car is invalid!");
+			if (stockContainsID(car_id)) {
+				throw new AppException("The car_id is invalid!");
 			}
 			if (new_price < 0) {
 				throw new AppException("The price is invalid!");
@@ -318,33 +315,28 @@ public class CarsRepository {
 		boolean stockBoolean = false;
 		boolean databaseBoolean = false;
 		
-		String getIdsQuerry = "SELECT car_id FROM car WHERE car_id = 1";
+		String getIdsQuerry = "SELECT car_id FROM car WHERE car_id = " + car_id;
 		try {
 			ResultSet resultSet = connection.statement.executeQuery(getIdsQuerry);
-			while(resultSet.next()) {
-				if(resultSet.getInt("car_id") == car_id) {
-					databaseBoolean = true;
-				}
-			}
+			
+			if (resultSet.next()) {
+	            databaseBoolean = true;
+	        }
+			
 			for(Car car : stock) {
 				if(car_id == car.getCar_Id()){
 					stockBoolean = true;
+					break;
 				}
 			}
-			if(stockBoolean == true && databaseBoolean == true) {
-				return true;
-			} else {
-				throw new AppException("The id is invalid!");
-			}
+			
+			return stockBoolean && databaseBoolean;
+				
+			
 		} catch (SQLException e) {
 			System.out.println("There was a problem with the querry: " + e.getMessage());
 			return false;
-		} catch (AppException e) {
-			System.out.println(e.getMessage());
-			return false;
-		}
-		
 	}
 	
-
+	}
 }
