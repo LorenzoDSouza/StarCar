@@ -144,9 +144,9 @@ public class CarsRepository {
 		}
 	}
 
-	public Car updatePrice(double new_price, Car car) {//this method might be remade, cause its not working
+	public Car updatePrice(double new_price, int car_id) {//this method might be remade, cause its not working
 		try {
-			if (car != null) {
+			if (car_id > 0) {
 				throw new AppException("The car is invalid!");
 			}
 			if (new_price < 0) {
@@ -312,6 +312,38 @@ public class CarsRepository {
 			System.out.println("Coulnd't update the stock: "+ e.getMessage());
 			return false;
 		}
+	}
+	
+	public boolean stockContainsID(int car_id) {
+		boolean stockBoolean = false;
+		boolean databaseBoolean = false;
+		
+		String getIdsQuerry = "SELECT car_id FROM car WHERE car_id = 1";
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(getIdsQuerry);
+			while(resultSet.next()) {
+				if(resultSet.getInt("car_id") == car_id) {
+					databaseBoolean = true;
+				}
+			}
+			for(Car car : stock) {
+				if(car_id == car.getCar_Id()){
+					stockBoolean = true;
+				}
+			}
+			if(stockBoolean == true && databaseBoolean == true) {
+				return true;
+			} else {
+				throw new AppException("The id is invalid!");
+			}
+		} catch (SQLException e) {
+			System.out.println("There was a problem with the querry: " + e.getMessage());
+			return false;
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
 	}
 	
 

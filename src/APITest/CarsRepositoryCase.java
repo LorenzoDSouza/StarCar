@@ -32,7 +32,7 @@ class CarsRepositoryCase {
 	}
 	
 	@Test
-	void getByIdLookingTheDataBaseTest() {//manual test: need to be tested manualy by looking in the database
+	void getByIdLookingTheDataBaseTest() {
 		assertEquals("Civic", carsRepository.getById(1).getName());
 	}
 	
@@ -43,8 +43,7 @@ class CarsRepositoryCase {
 	
 	@Test
 	void updateCarsPrice() {
-		carsRepository.updateStock();
-		carsRepository.updatePrice(1, car1);
+		carsRepository.updatePrice(1, carsRepository.getById(carsRepository.getLastId()));
 		assertEquals(1, carsRepository.getLastCarDb().getPrice());
 		
 	}
