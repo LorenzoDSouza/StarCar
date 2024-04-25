@@ -49,8 +49,8 @@ public class CarsRepository {
 			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
 
 			while (resultSet.next()) {
-					Car car = createCarLogic(resultSet);
-					allCars.add(car);
+				Car car = createCarLogic(resultSet);
+				allCars.add(car);
 			}
 		} catch (SQLException e) {
 			System.out.println("Couldn't execute querry! The value position is invalid or the datatype missmatch.");
@@ -63,25 +63,25 @@ public class CarsRepository {
 	}
 
 	public Car register(Car carParam) {
-	    String addValueQuery = "INSERT INTO car (car_name, brand_id, price, sold) VALUES ('" + carParam.getName() + "', "
-	            + carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
+		String addValueQuery = "INSERT INTO car (car_name, brand_id, price, sold) VALUES ('" + carParam.getName()
+				+ "', " + carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
 
-	    try {
-	        // Execute the insertion query
-	        connection.statement.executeUpdate(addValueQuery);
+		try {
+			// Execute the insertion query
+			connection.statement.executeUpdate(addValueQuery);
 
-	        // Get the last inserted car
-	        Car car = getLastCarDb();
+			// Get the last inserted car
+			Car car = getLastCarDb();
 
-	        // Add the car to the stock
-	        stock.add(car);
+			// Add the car to the stock
+			stock.add(car);
 
-	        return car;
+			return car;
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return null;
-	    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Car getById(int id) {// maybe could do it with consult at the stock
@@ -118,6 +118,7 @@ public class CarsRepository {
 				if (stock.get(index).getCar_Id() == id) {
 					stock.remove(index);
 					removed = true;
+					break;
 				}
 			}
 
@@ -127,10 +128,10 @@ public class CarsRepository {
 			return false;
 		}
 	}
-	
+
 	public boolean deleteLastCar() {
 		String deleteLastCar = "DELETE FROM car ORDER BY car_id DESC LIMIT 1";
-		
+
 		try {
 			connection.statement.executeUpdate(deleteLastCar);
 
@@ -141,23 +142,30 @@ public class CarsRepository {
 		}
 	}
 
-	public Car updatePrice(double new_price, int car_id) {//this method might be remade, cause its not working. need to chabge the car fo car_id (integer)
+	public Car updatePrice(double new_price, int car_id) {// this method might be remade, cause its not working. need to
+		String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
+		
 		try {
-			if (stockContainsID(car_id)) {
+			if (stockContainsID(car_id) != true) {
 				throw new AppException("The car_id is invalid!");
 			}
 			if (new_price < 0) {
 				throw new AppException("The price is invalid!");
 			}
+			
+			int rowsAffected = connection.statement.executeUpdate(updatePriceQuerry);
+			
+			int i = 0;
+			for (int index = 0; index < stock.size(); index++) {
+			    if (stock.get(index).getCar_Id() == car_id) { 
+			    	stock.get(index).setPrice(new_price);
+			    	i = index;
+			        break; 
+			    }
+			}
 
-			int car_id = car.getCar_Id();
-			String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
-			connection.statement.executeUpdate(updatePriceQuerry);
-
-			stock.get(stock.indexOf(car)).setPrice(new_price);
-
-			if (getById(car_id).getPrice() == new_price && stock.get(stock.indexOf(car)).getPrice() == new_price) {
-				return stock.get(stock.indexOf(car));
+			if (getById(car_id).getPrice() == new_price && stock.get(i).getPrice() == new_price) {
+				return stock.get(i);
 			} else {
 				throw new AppException("Couldnt update the price of the car.");
 			}
@@ -168,9 +176,26 @@ public class CarsRepository {
 			System.err.println("Coulnd't execute the Querry. There was a problem with the Database!");
 			return null;
 		} catch (RuntimeException e) {
-			System.out.println("Couldnt update price!");
+			System.out.println("Couldnt update price: " + e.getMessage());
 			return null;
-		}
+			}
+		
+		/* int rowsAffected = connection.statement.executeUpdate(updatePriceQuery);
+
+        if (rowsAffected > 0) {
+            for (Car car : stock) {
+                if (car.getCar_Id() == car_id) {
+                    car.setPrice(new_price);
+                    return car;
+                }
+            }
+            throw new AppException("Car with car_id " + car_id + " not found in stock.");
+        } else {
+            throw new AppException("Could not update the price of the car.");
+        }
+        
+        FOUND THIS DIFFERENT LOGIC THAT CAN BE USED AND IS OPTIMIZED!
+        */
 	}
 
 	public boolean getSoldValueByDatabase(Car car) {
@@ -264,7 +289,7 @@ public class CarsRepository {
 		}
 	}
 
-	public Car getLastCarDb() {//method for during using implementation
+	public Car getLastCarDb() {// method for during using implementation
 		try {
 			String getLastCarQuerry = "SELECT * FROM car ORDER BY car_id DESC LIMIT 1;";
 
@@ -288,8 +313,8 @@ public class CarsRepository {
 			return null;
 		}
 	}
-	
-	public int getLastId() {//method for database and during use implemenmtation
+
+	public int getLastId() {// method for database and during use implemenmtation
 		String getLastId = "SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1";
 		try {
 			ResultSet resulSet = connection.statement.executeQuery(getLastId);
@@ -298,45 +323,44 @@ public class CarsRepository {
 			System.out.println("Couldn't execute the querry: " + e.getMessage());
 			return 0;
 		}
-		
+
 	}
-	
+
 	public boolean updateStock() {
-		try{
+		try {
 			stock = getAllCars();
 			return true;
-		} catch(RuntimeException e) {
-			System.out.println("Coulnd't update the stock: "+ e.getMessage());
+		} catch (RuntimeException e) {
+			System.out.println("Coulnd't update the stock: " + e.getMessage());
 			return false;
 		}
 	}
-	
+
 	public boolean stockContainsID(int car_id) {
 		boolean stockBoolean = false;
 		boolean databaseBoolean = false;
-		
+
 		String getIdsQuerry = "SELECT car_id FROM car WHERE car_id = " + car_id;
 		try {
 			ResultSet resultSet = connection.statement.executeQuery(getIdsQuerry);
-			
+
 			if (resultSet.next()) {
-	            databaseBoolean = true;
-	        }
-			
-			for(Car car : stock) {
-				if(car_id == car.getCar_Id()){
+				databaseBoolean = true;
+			}
+
+			for (Car car : stock) {
+				if (car_id == car.getCar_Id()) {
 					stockBoolean = true;
 					break;
 				}
 			}
-			
+
 			return stockBoolean && databaseBoolean;
-				
-			
+
 		} catch (SQLException e) {
 			System.out.println("There was a problem with the querry: " + e.getMessage());
 			return false;
-	}
-	
+		}
+
 	}
 }
