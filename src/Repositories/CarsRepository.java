@@ -198,14 +198,13 @@ public class CarsRepository {
         */
 	}
 
-	public boolean getSoldValueByDatabase(Car car) {
+	public boolean getSoldValueByDatabase(int car_id) {
 
 		try {
-			if (car != null) {
-				throw new AppException("The car is invalid!");
+			if (stockContainsID(car_id) == false) {
+				throw new AppException("The car_id is invalid!");
 			}
 
-			int car_id = car.getCar_Id();
 			String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
 
 			ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
@@ -222,25 +221,30 @@ public class CarsRepository {
 		}
 	}
 
-	public Car updateToSold(Car car) {
-		try {
-			if (car != null) {
-				throw new AppException("The car is invalid!");
-			}
+	public Car updateToSold(int car_id) {
+		int indexOfUpdate = -1;
+		String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
 
-			if (stock.contains(car) != true) {
-				throw new AppException("The car isn't in the stock!");
+		try {
+			if (stockContainsID(car_id)==false) {
+				throw new AppException("The car_id is invalid!");
 			}
-			int car_id = car.getCar_Id();
-			String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
+			
 			connection.statement.executeUpdate(updatePriceQuerry);
 
-			stock.remove(stock.indexOf(car));
+			for(Car car : stock) {
+				if(car.getCar_Id()== car_id) {
+					car.setSold(true);
+				}
+				indexOfUpdate = stock.indexOf(car);
+			}
+			
+			if(indexOfUpdate < 0) {
+				throw new AppException("The index of the stock is invalid!");
+			}
 
-			car.setSold(true);
-
-			if (stock.contains(car) == true && getSoldValueByDatabase(car) == true) {
-				return car;
+			if (stock.get(indexOfUpdate).getSold() == true && getSoldValueByDatabase(car_id) == true) {
+				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("There was a problem to set the car to sold!");
 			}
