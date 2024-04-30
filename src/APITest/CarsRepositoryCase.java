@@ -29,6 +29,7 @@ class CarsRepositoryCase {
 	@AfterEach
 	void tearDown() {
 		carsRepository.deleteLastCar();
+		
 	}
 	
 	@Test
@@ -44,9 +45,7 @@ class CarsRepositoryCase {
 	@Test
 	void updateCarsPrice() {//do next, first test the car_id checker
 		carsRepository.updatePrice(2, carsRepository.getLastCarDb().getCar_Id());
-			
 		assertEquals(2, carsRepository.getLastCarDb().getPrice());
-		
 	}
 	
 	@Test
@@ -54,6 +53,24 @@ class CarsRepositoryCase {
 		assertEquals(true, carsRepository.stockContainsID(1));
 	}
 	
+	@Test
+	void deleteById() {
+		Car car = Car.create("HRV" , 1, 25.000);
+		carsRepository.register(car);
+		assertEquals("HRV", carsRepository.getLastCarDb().getName());
+		carsRepository.deleteById(carsRepository.getLastCarDb().getCar_Id());
+		assertEquals("Civic Type R", carsRepository.getLastCarDb().getName());
+		
+	}
 	
+	@Test
+	void updateCarName() {
+		carsRepository.updateName("Civic TSI", carsRepository.getLastCarDb().getCar_Id());
+		assertEquals("Civic TSI" , carsRepository.getLastCarDb().getName());
+	}
+	
+	void updateCarWithInvalidName() {
+		
+	}
 
 }

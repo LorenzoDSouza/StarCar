@@ -108,15 +108,15 @@ public class CarsRepository {
 	}
 
 	public boolean deleteById(int id) {
-		String deleteByIdQuerry = "DELETE * FROM car WHERE car_id = " + id;
+		String deleteByIdQuerry = "DELETE FROM car WHERE car_id = " + id;
 		boolean removed = false;
 
 		try {
 			connection.statement.executeUpdate(deleteByIdQuerry);
 
-			for (int index = 0; index < stock.size() || removed == true; index++) {
-				if (stock.get(index).getCar_Id() == id) {
-					stock.remove(index);
+			for (Car car : stock) {
+				if (car.getCar_Id() == id) {
+					stock.remove(car);
 					removed = true;
 					break;
 				}
@@ -155,17 +155,17 @@ public class CarsRepository {
 			
 			int rowsAffected = connection.statement.executeUpdate(updatePriceQuerry);
 			
-			int i = 0;
+			int indexOfUpdate = 0;
 			for (int index = 0; index < stock.size(); index++) {
 			    if (stock.get(index).getCar_Id() == car_id) { 
 			    	stock.get(index).setPrice(new_price);
-			    	i = index;
+			    	indexOfUpdate = index;
 			        break; 
 			    }
 			}
 
-			if (getById(car_id).getPrice() == new_price && stock.get(i).getPrice() == new_price) {
-				return stock.get(i);
+			if (getById(car_id).getPrice() == new_price && stock.get(indexOfUpdate).getPrice() == new_price) {
+				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("Couldnt update the price of the car.");
 			}
@@ -261,23 +261,35 @@ public class CarsRepository {
 		}
 	}
 
-	public Car updateName(String new_name, Car car) {
+	public Car updateName(String new_name, int car_id) {
+		String updateNameQuerry = "UPDATE car SET car_name = '" + new_name + "' WHERE car_id = " + car_id; //had to put single quotes to make it work
+		int indexOfUpdate = -1;
+		Car car;
+		
 		try {
-			if (car != null) {
-				throw new AppException("The car is invalid!");
+			if (stockContainsID(car_id) != true) {
+				throw new AppException("The car_id is invalid!");
 			}
-			if (new_name != null) {
+			if (new_name == null) {
 				throw new AppException("The name is invalid!");
 			}
 
-			int car_id = car.getCar_Id();
-			String updateNameQuerry = "UPDATE car SET name = " + new_name + " WHERE car_id = " + car_id;
-			ResultSet resultSetUpdatePrice = connection.statement.executeQuery(updateNameQuerry);
+			
+			
+			connection.statement.executeUpdate(updateNameQuerry);
 
-			stock.get(stock.indexOf(car)).setName(new_name);
+			for (int index = 0; index < stock.size(); index++) {
+			    if (stock.get(index).getCar_Id() == car_id) { 
+			    	stock.get(index).setName(new_name);
+			    	indexOfUpdate = index;
+			        break; 
+			    }
+			}
+			
+			
 
-			if (getById(car_id).getName() == new_name && stock.get(stock.indexOf(car)).getName() == new_name) {
-				return stock.get(stock.indexOf(car));
+			if (getById(car_id).getName().equals(new_name) &&stock.get(indexOfUpdate).getName().equals(new_name)) {
+				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("Couldnt update the car name.");
 			}
@@ -285,7 +297,7 @@ public class CarsRepository {
 			System.out.println(e.getMessage());
 			return null;
 		} catch (SQLException e) {
-			System.err.println("Coulnd't execute the Querry. There was a problem with the Database!");
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database: " + e.getMessage());
 			return null;
 		} catch (RuntimeException e) {
 			System.out.println("Couldnt update the car name!");
@@ -367,4 +379,8 @@ public class CarsRepository {
 		}
 
 	}
+	
+	//public boolean carRelatedToSale() {
+		
+	//}
 }
