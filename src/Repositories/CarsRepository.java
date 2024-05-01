@@ -207,6 +207,7 @@ public class CarsRepository {
 
 			String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
 
+			if()
 			ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
 			boolean sold = resultSet.getBoolean("sold");
 
@@ -333,10 +334,19 @@ public class CarsRepository {
 	public int getLastId() {// method for database and during use implemenmtation
 		String getLastId = "SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1";
 		try {
-			ResultSet resulSet = connection.statement.executeQuery(getLastId);
-			return resulSet.getInt("car_id");
+			ResultSet resultSet = connection.statement.executeQuery(getLastId);
+			
+			if(resultSet.next()) {
+				return resultSet.getInt("car_id");
+			} else {
+				throw new AppException("Couldnt execute the querry. None row was returned");
+			}
+			
 		} catch (SQLException e) {
 			System.out.println("Couldn't execute the querry: " + e.getMessage());
+			return 0;
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
 			return 0;
 		}
 
