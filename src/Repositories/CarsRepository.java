@@ -156,6 +156,7 @@ public class CarsRepository {
 			int rowsAffected = connection.statement.executeUpdate(updatePriceQuerry);
 			
 			int indexOfUpdate = 0;
+			
 			for (int index = 0; index < stock.size(); index++) {
 			    if (stock.get(index).getCar_Id() == car_id) { 
 			    	stock.get(index).setPrice(new_price);
@@ -200,18 +201,23 @@ public class CarsRepository {
 
 	public boolean getSoldValueByDatabase(int car_id) {
 
+		String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
+		
 		try {
 			if (stockContainsID(car_id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
 
-			String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
-
-			if()
 			ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
+			
+			if(resultSet.next()) {
 			boolean sold = resultSet.getBoolean("sold");
 
 			return sold;
+			} else {
+				throw new AppException("Couldnt get the sold value of the car.");
+			}
+			
 		} catch (AppException e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -227,24 +233,22 @@ public class CarsRepository {
 		String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
 
 		try {
+			
 			if (stockContainsID(car_id)==false) {
 				throw new AppException("The car_id is invalid!");
 			}
 			
 			connection.statement.executeUpdate(updatePriceQuerry);
-
+			
 			for(Car car : stock) {
 				if(car.getCar_Id()== car_id) {
 					car.setSold(true);
+					break;
 				}
 				indexOfUpdate = stock.indexOf(car);
 			}
-			
-			if(indexOfUpdate < 0) {
-				throw new AppException("The index of the stock is invalid!");
-			}
 
-			if (stock.get(indexOfUpdate).getSold() == true && getSoldValueByDatabase(car_id) == true) {
+			if (stock.get(indexOfUpdate).getSoldValue() == true && getSoldValueByDatabase(car_id) == true && indexOfUpdate >= 0) {
 				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("There was a problem to set the car to sold!");
@@ -274,8 +278,6 @@ public class CarsRepository {
 			if (new_name == null) {
 				throw new AppException("The name is invalid!");
 			}
-
-			
 			
 			connection.statement.executeUpdate(updateNameQuerry);
 
@@ -286,8 +288,6 @@ public class CarsRepository {
 			        break; 
 			    }
 			}
-			
-			
 
 			if (getById(car_id).getName().equals(new_name) &&stock.get(indexOfUpdate).getName().equals(new_name)) {
 				return stock.get(indexOfUpdate);

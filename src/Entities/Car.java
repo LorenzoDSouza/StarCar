@@ -14,7 +14,7 @@ public class Car {
 		this.name = name;
 		this.price = price;
 	}
-	
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
@@ -24,17 +24,21 @@ public class Car {
 		this.name = name;
 		this.price = price;
 	}
-	
+
 	public static Car create(int car_Id, String name, int brand_Id, double price) {
 		return new Car(car_Id, name, brand_Id, price);
 	}
-	
+
 	public static Car create(String name, int brand_Id, double price) {
 		return new Car(name, brand_Id, price);
 	}
-	
+
 	public String toString() {
-		return "Name: " + name + " | Car Id: " + car_Id + " | Brand Id: " + brand_Id + " | Price: $" + price;
+		if(sold = false) {
+		return "Name: " + name + " | Car Id: " + car_Id + " | Brand Id: " + brand_Id + " | Price: $" + price + " | Avaliable";
+		} else {
+		return "Name: " + name + " | Car Id: " + car_Id + " | Brand Id: " + brand_Id + " | Price: $" + price + " | Not avaliable";
+		}
 	}
 
 	public void setCar_Id(int car_Id) {
@@ -61,7 +65,7 @@ public class Car {
 		return name;
 	}
 
-	public boolean getSold() {
+	public boolean getSoldValue() {
 		return sold;
 	}
 
@@ -72,7 +76,5 @@ public class Car {
 	public double getPrice() {
 		return price;
 	}
-	
-	
 
 }
