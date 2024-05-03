@@ -31,7 +31,6 @@ class CarsRepositoryCase {
 	@AfterEach
 	void tearDown() {
 		carsRep.deleteLastCar();
-		
 	}
 	
 	@Test
@@ -89,6 +88,7 @@ class CarsRepositoryCase {
 	@Test
 	void updateAvaliableCarToSoldCheckingById() {
 		int lastId = carsRep.getLastId();
+		System.out.println(lastId);
 		carsRep.updateToSold(lastId);
 		assertEquals(true, carsRep.getSoldValueByDatabase(lastId));
 	}
@@ -97,8 +97,13 @@ class CarsRepositoryCase {
 	void updateAvaliableCarToSoldCheckingByCarReturn() {
 		int lastId = carsRep.getLastId();
 		carsRep.updateToSold(lastId);
-		System.out.println(carsRep.getLastCarDb());
 		assertEquals(true, carsRep.getLastCarDb().getSoldValue());
+	}
+	
+	@Test
+	void deleteACarLookingTheDatabase() {
+		carsRep.deleteById(40);
+		assertEquals(null, carsRep.getById(40));
 	}
 	
 	

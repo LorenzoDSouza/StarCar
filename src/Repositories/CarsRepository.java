@@ -32,8 +32,9 @@ public class CarsRepository {
 			String car_name = resultSet.getString("car_name");
 			int brand_id = resultSet.getInt("brand_id");
 			double price = resultSet.getDouble("price");
+			boolean sold = resultSet.getBoolean("sold");
 
-			Car car = Car.create(car_id, car_name, brand_id, price);
+			Car car = Car.create(car_id, car_name, brand_id, price, sold);
 
 			return car;
 		} catch (Exception e) {
@@ -123,8 +124,8 @@ public class CarsRepository {
 			}
 
 			return true;
-		} catch (Exception e) {
-			System.out.println("Couldn't delete the car in the database.");
+		} catch (SQLException e) {
+			System.out.println("Couldn't delete the car in the database: " + e.getMessage());
 			return false;
 		}
 	}
@@ -243,9 +244,9 @@ public class CarsRepository {
 			for(Car car : stock) {
 				if(car.getCar_Id()== car_id) {
 					car.setSold(true);
+					indexOfUpdate = stock.indexOf(car);
 					break;
 				}
-				indexOfUpdate = stock.indexOf(car);
 			}
 
 			if (stock.get(indexOfUpdate).getSoldValue() == true && getSoldValueByDatabase(car_id) == true && indexOfUpdate >= 0) {
@@ -390,7 +391,8 @@ public class CarsRepository {
 
 	}
 	
-	//public boolean carRelatedToSale() {
+	/*public boolean carRelatedToSale() {
 		
-	//}
+	}*/
+	
 }

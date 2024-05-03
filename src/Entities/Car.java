@@ -8,11 +8,12 @@ public class Car {
 	double price;
 	boolean sold;
 
-	private Car(int car_Id, String name, int brand_Id, double price) {
+	private Car(int car_Id, String name, int brand_Id, double price, boolean sold) {
 		this.brand_Id = brand_Id;
 		this.car_Id = car_Id;
 		this.name = name;
 		this.price = price;
+		this.sold = sold;
 	}
 
 	public void setPrice(double price) {
@@ -25,8 +26,8 @@ public class Car {
 		this.price = price;
 	}
 
-	public static Car create(int car_Id, String name, int brand_Id, double price) {
-		return new Car(car_Id, name, brand_Id, price);
+	public static Car create(int car_Id, String name, int brand_Id, double price, boolean sold) {
+		return new Car(car_Id, name, brand_Id, price, sold);
 	}
 
 	public static Car create(String name, int brand_Id, double price) {
