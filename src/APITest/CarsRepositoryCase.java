@@ -88,7 +88,6 @@ class CarsRepositoryCase {
 	@Test
 	void updateAvaliableCarToSoldCheckingById() {
 		int lastId = carsRep.getLastId();
-		System.out.println(lastId);
 		carsRep.updateToSold(lastId);
 		assertEquals(true, carsRep.getSoldValueByDatabase(lastId));
 	}
@@ -104,6 +103,11 @@ class CarsRepositoryCase {
 	void deleteACarLookingTheDatabase() {
 		carsRep.deleteById(40);
 		assertEquals(null, carsRep.getById(40));
+	}
+	
+	@Test
+	void getByIdPassingInvalidId() {
+		assertEquals(null, carsRep.getById(-1));
 	}
 	
 	

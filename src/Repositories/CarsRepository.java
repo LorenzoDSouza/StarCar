@@ -90,6 +90,11 @@ public class CarsRepository {
 								// in the stock!!! (very importannt)
 		try {
 			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
+			
+			if(stockContainsID(id) == false ) {
+				throw new AppException("The car_id is invalid!");
+			}
+			
 			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
 
 			if (resultSet.next()) {
