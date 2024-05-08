@@ -53,10 +53,15 @@ public class CarsRepository {
 				Car car = createCarLogic(resultSet);
 				allCars.add(car);
 			}
+			return allCars;
 		} catch (SQLException e) {
-			System.out.println("Couldn't execute querry! The value position is invalid or the datatype missmatch.");
+			System.out.println("Couldn't execute querry!");
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get all the cars");
+			return null;
 		}
-		return allCars;
+
 	}
 
 	public ArrayList<Car> getStock() {
@@ -90,11 +95,11 @@ public class CarsRepository {
 								// in the stock!!! (very importannt)
 		try {
 			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
-			
-			if(stockContainsID(id) == false ) {
+
+			if (stockContainsID(id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
-			
+
 			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
 
 			if (resultSet.next()) {
@@ -150,7 +155,7 @@ public class CarsRepository {
 
 	public Car updatePrice(double new_price, int car_id) {// this method might be remade, cause its not working. need to
 		String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
-		
+
 		try {
 			if (stockContainsID(car_id) != true) {
 				throw new AppException("The car_id is invalid!");
@@ -158,17 +163,17 @@ public class CarsRepository {
 			if (new_price < 0) {
 				throw new AppException("The price is invalid!");
 			}
-			
+
 			int rowsAffected = connection.statement.executeUpdate(updatePriceQuerry);
-			
+
 			int indexOfUpdate = 0;
-			
+
 			for (int index = 0; index < stock.size(); index++) {
-			    if (stock.get(index).getCar_Id() == car_id) { 
-			    	stock.get(index).setPrice(new_price);
-			    	indexOfUpdate = index;
-			        break; 
-			    }
+				if (stock.get(index).getCar_Id() == car_id) {
+					stock.get(index).setPrice(new_price);
+					indexOfUpdate = index;
+					break;
+				}
 			}
 
 			if (getById(car_id).getPrice() == new_price && stock.get(indexOfUpdate).getPrice() == new_price) {
@@ -185,45 +190,39 @@ public class CarsRepository {
 		} catch (RuntimeException e) {
 			System.out.println("Couldnt update price: " + e.getMessage());
 			return null;
-			}
-		
-		/* int rowsAffected = connection.statement.executeUpdate(updatePriceQuery);
+		}
 
-        if (rowsAffected > 0) {
-            for (Car car : stock) {
-                if (car.getCar_Id() == car_id) {
-                    car.setPrice(new_price);
-                    return car;
-                }
-            }
-            throw new AppException("Car with car_id " + car_id + " not found in stock.");
-        } else {
-            throw new AppException("Could not update the price of the car.");
-        }
-        
-        FOUND THIS DIFFERENT LOGIC THAT CAN BE USED AND IS OPTIMIZED!
-        */
+		/*
+		 * int rowsAffected = connection.statement.executeUpdate(updatePriceQuery);
+		 * 
+		 * if (rowsAffected > 0) { for (Car car : stock) { if (car.getCar_Id() ==
+		 * car_id) { car.setPrice(new_price); return car; } } throw new
+		 * AppException("Car with car_id " + car_id + " not found in stock."); } else {
+		 * throw new AppException("Could not update the price of the car."); }
+		 * 
+		 * FOUND THIS DIFFERENT LOGIC THAT CAN BE USED AND IS OPTIMIZED!
+		 */
 	}
 
 	public boolean getSoldValueByDatabase(int car_id) {
 
 		String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
-		
+
 		try {
 			if (stockContainsID(car_id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
 
 			ResultSet resultSet = connection.statement.executeQuery(checkSoldQuerry);
-			
-			if(resultSet.next()) {
-			boolean sold = resultSet.getBoolean("sold");
 
-			return sold;
+			if (resultSet.next()) {
+				boolean sold = resultSet.getBoolean("sold");
+
+				return sold;
 			} else {
 				throw new AppException("Couldnt get the sold value of the car.");
 			}
-			
+
 		} catch (AppException e) {
 			System.out.println(e.getMessage());
 			return false;
@@ -239,22 +238,23 @@ public class CarsRepository {
 		String updatePriceQuerry = "UPDATE car SET sold = true WHERE car_id = " + car_id;
 
 		try {
-			
-			if (stockContainsID(car_id)==false) {
+
+			if (stockContainsID(car_id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
-			
+
 			connection.statement.executeUpdate(updatePriceQuerry);
-			
-			for(Car car : stock) {
-				if(car.getCar_Id()== car_id) {
+
+			for (Car car : stock) {
+				if (car.getCar_Id() == car_id) {
 					car.setSold(true);
 					indexOfUpdate = stock.indexOf(car);
 					break;
 				}
 			}
 
-			if (stock.get(indexOfUpdate).getSoldValue() == true && getSoldValueByDatabase(car_id) == true && indexOfUpdate >= 0) {
+			if (stock.get(indexOfUpdate).getSoldValue() == true && getSoldValueByDatabase(car_id) == true
+					&& indexOfUpdate >= 0) {
 				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("There was a problem to set the car to sold!");
@@ -273,10 +273,10 @@ public class CarsRepository {
 	}
 
 	public Car updateName(String new_name, int car_id) {
-		String updateNameQuerry = "UPDATE car SET car_name = '" + new_name + "' WHERE car_id = " + car_id; //had to put single quotes to make it work
+		String updateNameQuerry = "UPDATE car SET car_name = '" + new_name + "' WHERE car_id = " + car_id; 
 		int indexOfUpdate = -1;
 		Car car;
-		
+
 		try {
 			if (stockContainsID(car_id) != true) {
 				throw new AppException("The car_id is invalid!");
@@ -284,18 +284,18 @@ public class CarsRepository {
 			if (new_name == null) {
 				throw new AppException("The name is invalid!");
 			}
-			
+
 			connection.statement.executeUpdate(updateNameQuerry);
 
 			for (int index = 0; index < stock.size(); index++) {
-			    if (stock.get(index).getCar_Id() == car_id) { 
-			    	stock.get(index).setName(new_name);
-			    	indexOfUpdate = index;
-			        break; 
-			    }
+				if (stock.get(index).getCar_Id() == car_id) {
+					stock.get(index).setName(new_name);
+					indexOfUpdate = index;
+					break;
+				}
 			}
 
-			if (getById(car_id).getName().equals(new_name) &&stock.get(indexOfUpdate).getName().equals(new_name)) {
+			if (getById(car_id).getName().equals(new_name) && stock.get(indexOfUpdate).getName().equals(new_name)) {
 				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("Couldnt update the car name.");
@@ -341,13 +341,13 @@ public class CarsRepository {
 		String getLastId = "SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1";
 		try {
 			ResultSet resultSet = connection.statement.executeQuery(getLastId);
-			
-			if(resultSet.next()) {
+
+			if (resultSet.next()) {
 				return resultSet.getInt("car_id");
 			} else {
 				throw new AppException("Couldnt execute the querry. None row was returned");
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("Couldn't execute the querry: " + e.getMessage());
 			return 0;
@@ -395,9 +395,11 @@ public class CarsRepository {
 		}
 
 	}
-	
-	/*public boolean carRelatedToSale() {
-		
-	}*/
-	
+
+	/*
+	 * public boolean carRelatedToSale() {
+	 * 
+	 * }
+	 */
+
 }
