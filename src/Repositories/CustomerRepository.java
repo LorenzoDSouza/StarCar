@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Database.DbConnection;
 import Entities.Car;
 import Entities.Customer;
+import Exceptions.AppException;
 
 public class CustomerRepository {
 
@@ -57,5 +58,52 @@ public class CustomerRepository {
 	
 	public ArrayList<Customer> getCustomers() {
 		return customers;
+	} 
+	
+	public Customer register(Customer customerParam) {
+		String insertValueQuerry = "INSERT INTO customer (first_name, last_name) VALUES ('" + customerParam.getFirst_name() + "', '" + 
+									customerParam.getLast_name() + "')";
+		
+		try {
+			connection.statement.executeUpdate(insertValueQuerry);
+			
+			Customer customer = getLastCustomerDb();
+			customers.add(customer);
+			
+			return customer;
+		} catch (SQLException e) {
+			System.out.println("There was a problem to execute the querry: " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to register the customer: " + e.getMessage());
+			return null;
+		}
 	}
+	
+	public Customer getLastCustomerDb() {// method for during using implementation
+		try {
+			String getLastCustomerQuerry = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 1;";
+
+			ResultSet resultSet = connection.statement.executeQuery(getLastCustomerQuerry);
+
+			if (resultSet.next()) {
+				Customer lastCustomer = createCustomerLogic(resultSet);
+				return lastCustomer;
+			} else {
+				throw new AppException("The table is empty");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem to execute the querry: " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the customer: " + e.getMessage());
+			return null;
+		} catch (AppException e) {
+			System.out.println("There was a problem to get the customer: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	
 }

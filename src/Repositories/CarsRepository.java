@@ -69,30 +69,25 @@ public class CarsRepository {
 	}
 
 	public Car register(Car carParam) {
-		String addValueQuery = "INSERT INTO car (car_name, brand_id, price, sold) VALUES ('" + carParam.getName()
+		String insertValueQuerry = "INSERT INTO car (car_name, brand_id, price, sold) VALUES ('" + carParam.getName()
 				+ "', " + carParam.getBrand_Id() + ", " + carParam.getPrice() + ", false)";
 
 		try {
-			// Execute the insertion query
-			connection.statement.executeUpdate(addValueQuery);
+			connection.statement.executeUpdate(insertValueQuerry);
 
-			// Get the last inserted car
 			Car car = getLastCarDb();
-
-			// Add the car to the stock
 			stock.add(car);
 
 			return car;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	public Car getById(int id) {// maybe could do it with consult at the stock
-								// to verify by returning, should make a doublw verification in th database and
-								// in the stock!!! (very importannt)
+	public Car getById(int id) {
+								
+								
 		try {
 			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
 
