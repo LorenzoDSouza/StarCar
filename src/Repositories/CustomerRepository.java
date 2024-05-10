@@ -94,7 +94,7 @@ public class CustomerRepository {
 	public Customer getById(int customer_id) {
 		String selectByIdQuerry = "SELECT * FROM customer WHERE customer_id = " + customer_id;
 		
-		
+		//finish this method
 	}
 	
 	public Customer getLastCustomerDb() {// method for during using implementation
@@ -120,6 +120,37 @@ public class CustomerRepository {
 			System.out.println("There was a problem to get the customer: " + e.getMessage());
 			return null;
 		}
+	}
+	
+	public boolean isValidId(int customer_id) {
+		boolean stockBoolean = false;
+		boolean databaseBoolean = false;
+
+		String getIdsQuerry = "SELECT customer_id FROM customer WHERE customer_id = " + customer_id;
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(getIdsQuerry);
+
+			if (resultSet.next()) {
+				databaseBoolean = true;
+			}
+
+			for (Customer customer : customers) {
+				if (customer_id == customer.getCustomer_id()) {
+					stockBoolean = true;
+					break;
+				}
+			}
+
+			return stockBoolean && databaseBoolean;
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem with the querry: " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to validate the id: " + e.getMessage());
+			return false;
+		}
+
 	}
 	
 	

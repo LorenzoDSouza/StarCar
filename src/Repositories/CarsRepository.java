@@ -89,7 +89,7 @@ public class CarsRepository {
 		String selectByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;		
 								
 		try {
-			if (stockContainsID(id) == false) {
+			if (isValidId(id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
 
@@ -150,7 +150,7 @@ public class CarsRepository {
 		String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
 
 		try {
-			if (stockContainsID(car_id) != true) {
+			if (isValidId(car_id) != true) {
 				throw new AppException("The car_id is invalid!");
 			}
 			if (new_price < 0) {
@@ -202,7 +202,7 @@ public class CarsRepository {
 		String checkSoldQuerry = "SELECT sold FROM car WHERE car_id = " + car_id;
 
 		try {
-			if (stockContainsID(car_id) == false) {
+			if (isValidId(car_id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
 
@@ -232,7 +232,7 @@ public class CarsRepository {
 
 		try {
 
-			if (stockContainsID(car_id) == false) {
+			if (isValidId(car_id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
 
@@ -271,7 +271,7 @@ public class CarsRepository {
 		Car car;
 
 		try {
-			if (stockContainsID(car_id) != true) {
+			if (isValidId(car_id) != true) {
 				throw new AppException("The car_id is invalid!");
 			}
 			if (new_name == null) {
@@ -361,7 +361,7 @@ public class CarsRepository {
 		}
 	}
 
-	public boolean stockContainsID(int car_id) {
+	public boolean isValidId(int car_id) {
 		boolean stockBoolean = false;
 		boolean databaseBoolean = false;
 
@@ -384,6 +384,9 @@ public class CarsRepository {
 
 		} catch (SQLException e) {
 			System.out.println("There was a problem with the querry: " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to validate the id: " + e.getMessage());
 			return false;
 		}
 
