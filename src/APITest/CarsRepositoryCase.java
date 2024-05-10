@@ -18,12 +18,11 @@ import Entities.Car;
 
 class CarsRepositoryCase {
 
-	private CarsRepository carsRep = new CarsRepository("starcartest");
+	private static CarsRepository carsRep = new CarsRepository("starcartest");
 	private Car car1;
 	
 	@BeforeEach
 	void setUp() {
-		carsRep  = new CarsRepository("starcartest");
 		car1 = Car.create("Civic Type R" , 1, 44890);
 		carsRep.register(car1);
 	}

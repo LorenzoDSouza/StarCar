@@ -25,6 +25,11 @@ public class CustomersRepository {
 	//deleteLastCustomer
 	//customersTableHasId(boolean)
 	
+	public CustomersRepository(String database) {
+		connection = new DbConnection(database);
+		customers = getAllCustomers();
+	}
+	
 	public Customer createCustomerLogic(ResultSet resultSet) {
 		
 		try {
@@ -39,11 +44,6 @@ public class CustomersRepository {
 		} catch (Exception e) {
 			return null;
 		}
-	}
-
-	public CustomersRepository(String database) {
-		connection = new DbConnection(database);
-
 	}
 
 	public ArrayList<Customer> getAllCustomers() {
