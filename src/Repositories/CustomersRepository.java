@@ -9,7 +9,7 @@ import Entities.Car;
 import Entities.Customer;
 import Exceptions.AppException;
 
-public class CustomerRepository {
+public class CustomersRepository {
 
 	private DbConnection connection;
 	private ArrayList<Customer> customers;
@@ -41,7 +41,7 @@ public class CustomerRepository {
 		}
 	}
 
-	public CustomerRepository(String database) {
+	public CustomersRepository(String database) {
 		connection = new DbConnection(database);
 
 	}
