@@ -51,7 +51,7 @@ class CarsRepositoryCase {
 	
 	@Test
 	void carIDValidator() {//validates an car_id checked manually in the database
-		assertEquals(true, carsRep.stockContainsID(1));
+		assertEquals(true, carsRep.isValidId(1));
 	}
 	
 	@Test
