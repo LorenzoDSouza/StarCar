@@ -13,9 +13,20 @@ public class CustomerRepository {
 
 	private DbConnection connection;
 	private ArrayList<Customer> customers;
-
+	
+	//getAllCustomers -
+	//register -
+	//getById <
+	//deletebyId
+	//updateFirstName
+	//deleteLastName
+	//getLastId
+	//getLastCustomer
+	//deleteLastCustomer
+	//customersTableHasId(boolean)
+	
 	public Customer createCustomerLogic(ResultSet resultSet) {
-
+		
 		try {
 			int customer_id = resultSet.getInt("customer_id");
 			String first_name = resultSet.getString("first_name");
@@ -80,6 +91,12 @@ public class CustomerRepository {
 		}
 	}
 	
+	public Customer getById(int customer_id) {
+		String selectByIdQuerry = "SELECT * FROM customer WHERE customer_id = " + customer_id;
+		
+		
+	}
+	
 	public Customer getLastCustomerDb() {// method for during using implementation
 		try {
 			String getLastCustomerQuerry = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 1;";
@@ -104,6 +121,8 @@ public class CustomerRepository {
 			return null;
 		}
 	}
+	
+	
 	
 	
 }

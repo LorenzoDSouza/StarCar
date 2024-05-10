@@ -86,16 +86,14 @@ public class CarsRepository {
 	}
 
 	public Car getById(int id) {
-								
+		String selectByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;		
 								
 		try {
-			String getByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;
-
 			if (stockContainsID(id) == false) {
 				throw new AppException("The car_id is invalid!");
 			}
 
-			ResultSet resultSet = connection.statement.executeQuery(getByIdQuerry);
+			ResultSet resultSet = connection.statement.executeQuery(selectByIdQuerry);
 
 			if (resultSet.next()) {
 				Car car = createCarLogic(resultSet);
