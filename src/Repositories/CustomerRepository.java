@@ -94,7 +94,30 @@ public class CustomerRepository {
 	public Customer getById(int customer_id) {
 		String selectByIdQuerry = "SELECT * FROM customer WHERE customer_id = " + customer_id;
 		
-		//finish this method
+		try {
+			if (!isValidId(customer_id)) {
+				throw new AppException("The customer_id is invalid!");
+			}
+			
+			ResultSet resultSet = connection.statement.executeQuery(selectByIdQuerry);
+			
+			if(resultSet.next()) {
+				Customer customer = createCustomerLogic(resultSet);
+				return customer;
+			} else {
+				return null;//change by a future exception, after discover how the return of the next() method works 
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("There was a problem to select the Customer (SQLException): " + e.getMessage());
+			return null;
+		} catch (AppException e) {
+			System.out.println("There was a problem to select the Customer (AppException): " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to select the Customer (RuntimeException): " + e.getMessage());
+			return null;
+		}
 	}
 	
 	public Customer getLastCustomerDb() {// method for during using implementation

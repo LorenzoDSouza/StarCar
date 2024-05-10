@@ -89,7 +89,7 @@ public class CarsRepository {
 		String selectByIdQuerry = "SELECT * FROM car WHERE car_id = " + id;		
 								
 		try {
-			if (isValidId(id) == false) {
+			if (!isValidId(id)) {
 				throw new AppException("The car_id is invalid!");
 			}
 
@@ -99,14 +99,16 @@ public class CarsRepository {
 				Car car = createCarLogic(resultSet);
 				return car;
 			} else {
-				return null;
+				return null;//change by a future exception, after discover how the return of the next() method works
 			}
 		} catch (SQLException e) {
-			System.out.println("Error while getting car by ID: " + e.getMessage());
+			System.out.println("Error while getting the car by ID (SQLException): " + e.getMessage());
 			return null;
-
-		} catch (Exception e) {
-			System.out.println("Couldnt get the car in the database: " + e.getMessage());
+		} catch (AppException e) {
+			System.out.println("There was a problem to select the Car (AppException): " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to select the Car (RuntimeException): " + e.getMessage());
 			return null;
 		}
 	}
