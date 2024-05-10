@@ -16,14 +16,14 @@ public class CustomersRepository {
 	
 	//getAllCustomers -
 	//register -
-	//getById <
+	//getById -
 	//deletebyId
 	//updateFirstName
-	//deleteLastName
+	//updateLastName
 	//getLastId
 	//getLastCustomer
 	//deleteLastCustomer
-	//customersTableHasId(boolean)
+	//customersTableHasId(boolean) -
 	
 	public CustomersRepository(String database) {
 		connection = new DbConnection(database);
