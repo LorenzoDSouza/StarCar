@@ -31,4 +31,11 @@ class CustomersRepositoryCase {
 		assertEquals("David", cusRep.getById(1).getFirst_name());
 	}
 	
+	@Test
+	void deleteById() {
+		//cusRep.register(cus1);
+		//assertEquals(cus1, cusRep.getLastCustomerDb());
+		
+	}
+	
 }

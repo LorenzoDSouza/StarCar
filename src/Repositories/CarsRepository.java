@@ -115,7 +115,7 @@ public class CarsRepository {
 
 	public boolean deleteById(int id) {
 		String deleteByIdQuerry = "DELETE FROM car WHERE car_id = " + id;
-		boolean removed = false;
+		boolean deleted = false;
 
 		try {
 			connection.statement.executeUpdate(deleteByIdQuerry);
@@ -123,7 +123,7 @@ public class CarsRepository {
 			for (Car car : stock) {
 				if (car.getCar_Id() == id) {
 					stock.remove(car);
-					removed = true;
+					deleted = true;
 					break;
 				}
 			}
