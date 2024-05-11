@@ -201,4 +201,25 @@ public class CustomersRepository {
 			return false;
 		}
 	}
+	
+	public int getLastId() {
+		String getLastId = "SELECT customer_id FROM customer ORDER BY customer_id DESC LIMIT 1";
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(getLastId);
+
+			if (resultSet.next()) {
+				return resultSet.getInt("customer_id");
+			} else {
+				throw new AppException("Couldnt execute the querry. None row was returned");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Couldn't execute the querry (SQLException): " + e.getMessage());
+			return 0;
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
+			return 0;
+		} 
+
+	}
 }

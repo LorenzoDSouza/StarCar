@@ -23,7 +23,7 @@ class CustomersRepositoryCase {
 	
 	@AfterEach
 	void tearDown() {
-		//cusRep.deleteLastCustomer();
+		
 	}
 	
 	@Test
@@ -33,9 +33,16 @@ class CustomersRepositoryCase {
 	
 	@Test
 	void deleteById() {
-		//cusRep.register(cus1);
-		//assertEquals(cus1, cusRep.getLastCustomerDb());
+		cusRep.register(cus1);
+		int lastCustomerId = cusRep.getLastId();
 		
+		assertEquals(cus1.getFirst_name(), cusRep.getLastCustomerDb().getFirst_name());
+		
+		cusRep.deleteById(lastCustomerId);
+		
+		assertEquals(false, cusRep.isValidId(lastCustomerId));
 	}
+	
+	
 	
 }
