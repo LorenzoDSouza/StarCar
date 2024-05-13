@@ -45,6 +45,15 @@ class CustomersRepositoryCase {
 		assertEquals(false, cusRep.isValidId(lastCustomerId));
 	}
 	
+	@Test
+	void deleteLastCustomer() {
+		cusRep.register(cus2);
+		int lastCustomerId = cusRep.getLastId();
+		
+		cusRep.deleteLastCustomer();
+		
+		assertEquals(false, cusRep.isValidId(lastCustomerId));
+	}
 	
 	
 }

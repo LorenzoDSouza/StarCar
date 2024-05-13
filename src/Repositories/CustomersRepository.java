@@ -17,12 +17,12 @@ public class CustomersRepository {
 	// getAllCustomers -
 	// register -
 	// getById -
-	// deletebyI
+	// deletebyI -
 	// updateFirstName
 	// updateLastName
-	// getLastId
+	// getLastId -
 	// getLastCustomer
-	// deleteLastCustomer
+	// deleteLastCustomer -
 	// customersTableHasId(boolean) -
 
 	public CustomersRepository(String database) {
