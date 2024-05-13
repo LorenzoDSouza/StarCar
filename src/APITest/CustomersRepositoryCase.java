@@ -14,16 +14,18 @@ class CustomersRepositoryCase {
 	
 	private static CustomersRepository cusRep = new CustomersRepository("starcartest");
 	private Customer cus1;
+	private Customer cus2;
 	
 	@BeforeEach
 	void setUp() {
 		cus1 = Customer.create("Lorenzo" , "de Souza");
-		//cusRep.register(cus1);
+		cus2 = Customer.create("Arthur" , "Kellermann");
+		cusRep.register(cus1);
 	}
 	
 	@AfterEach
 	void tearDown() {
-		
+		cusRep.deleteLastCustomer();
 	}
 	
 	@Test
@@ -33,10 +35,10 @@ class CustomersRepositoryCase {
 	
 	@Test
 	void deleteById() {
-		cusRep.register(cus1);
+		cusRep.register(cus2);
 		int lastCustomerId = cusRep.getLastId();
 		
-		assertEquals(cus1.getFirst_name(), cusRep.getLastCustomerDb().getFirst_name());
+		assertEquals(cus2.getFirst_name(), cusRep.getLastCustomerDb().getFirst_name());
 		
 		cusRep.deleteById(lastCustomerId);
 		

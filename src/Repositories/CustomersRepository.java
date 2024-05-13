@@ -202,6 +202,22 @@ public class CustomersRepository {
 		}
 	}
 	
+	public boolean deleteLastCustomer() {
+		String deleteLastCar = "DELETE FROM customer ORDER BY customer_id DESC LIMIT 1";
+
+		try {
+			connection.statement.executeUpdate(deleteLastCar);
+
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Couldn't delete the customer in the database (SQLException): " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("Couldn't delete the customer (RuntimeLException): " + e.getMessage());
+			return false;
+		}
+	}
+	
 	public int getLastId() {
 		String getLastId = "SELECT customer_id FROM customer ORDER BY customer_id DESC LIMIT 1";
 		try {
