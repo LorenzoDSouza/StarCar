@@ -18,7 +18,7 @@ public class CustomersRepository {
 	// register -
 	// getById -
 	// deletebyI -
-	// updateFirstName
+	// updateFirstName <
 	// updateLastName
 	// getLastId -
 	// getLastCustomer
@@ -237,5 +237,49 @@ public class CustomersRepository {
 			return 0;
 		} 
 
+	}
+	
+	public Customer updateFirstName(int customer_id, String newFirstName) {
+		String udapteFirstNameQuerry = "UPDATE customer SET first_name: " + newFirstName + " WHERE customer_id = " + customer_id;
+		int indexOfUpdate = -1;
+		
+		try {
+			if (isValidId(customer_id) != true) {
+				throw new AppException("The customer id is invalid!");
+			}
+			if (newFirstName == null) {
+				throw new AppException("The first name is invalid!");
+			}
+			
+			int rowsAffected = connection.statement.executeUpdate(udapteFirstNameQuerry);
+			
+			for (int index = 0; index < customers.size(); index++) {
+				if (customers.get(index).getCustomer_id() == customer_id) {
+					customers.get(index).setFirst_name(newFirstName);;
+					indexOfUpdate = index;
+					break;
+				}
+			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the customer in the customers list (API)");
+			}
+			
+			if (getById(customer_id).getFirst_name() == newFirstName && customers.get(indexOfUpdate).getFirst_name() == newFirstName) {
+				return customers.get(indexOfUpdate);
+			} else {
+				throw new AppException("Couldnt update the first name of the customer.");
+			}
+			
+		} catch (AppException e) {
+			System.out.println(e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database (SQLException)!");
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update first name (RuntimeException): " + e.getMessage());
+			return null;
+		}
 	}
 }

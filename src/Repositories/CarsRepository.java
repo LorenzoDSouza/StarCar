@@ -150,7 +150,8 @@ public class CarsRepository {
 
 	public Car updatePrice(double new_price, int car_id) {// this method might be remade, cause its not working. need to
 		String updatePriceQuerry = "UPDATE car SET price = " + new_price + " WHERE car_id = " + car_id;
-
+		int indexOfUpdate = -1;
+		
 		try {
 			if (isValidId(car_id) != true) {
 				throw new AppException("The car_id is invalid!");
@@ -161,8 +162,6 @@ public class CarsRepository {
 
 			int rowsAffected = connection.statement.executeUpdate(updatePriceQuerry);
 
-			int indexOfUpdate = 0;
-
 			for (int index = 0; index < stock.size(); index++) {
 				if (stock.get(index).getCar_Id() == car_id) {
 					stock.get(index).setPrice(new_price);
@@ -170,12 +169,17 @@ public class CarsRepository {
 					break;
 				}
 			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the car in the stock (API)");
+			}
 
 			if (getById(car_id).getPrice() == new_price && stock.get(indexOfUpdate).getPrice() == new_price) {
 				return stock.get(indexOfUpdate);
 			} else {
 				throw new AppException("Couldnt update the price of the car.");
 			}
+			
 		} catch (AppException e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -247,6 +251,10 @@ public class CarsRepository {
 					break;
 				}
 			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the car in the stock (API)");
+			}
 
 			if (stock.get(indexOfUpdate).getSoldValue() == true && getSoldValueByDatabase(car_id) == true
 					&& indexOfUpdate >= 0) {
@@ -270,7 +278,6 @@ public class CarsRepository {
 	public Car updateName(String new_name, int car_id) {
 		String updateNameQuerry = "UPDATE car SET car_name = '" + new_name + "' WHERE car_id = " + car_id; 
 		int indexOfUpdate = -1;
-		Car car;
 
 		try {
 			if (isValidId(car_id) != true) {
@@ -288,6 +295,10 @@ public class CarsRepository {
 					indexOfUpdate = index;
 					break;
 				}
+			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the car in the stock (API)");
 			}
 
 			if (getById(car_id).getName().equals(new_name) && stock.get(indexOfUpdate).getName().equals(new_name)) {
