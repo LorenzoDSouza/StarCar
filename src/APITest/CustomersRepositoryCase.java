@@ -55,5 +55,11 @@ class CustomersRepositoryCase {
 		assertEquals(false, cusRep.isValidId(lastCustomerId));
 	}
 	
+	@Test 
+	void updateFirstName() {
+		cusRep.updateFirstName(cusRep.getLastId(), "Andre");
+		assertEquals("Andre", cusRep.getLastCustomerDb().getFirst_name());
+	}
+	
 	
 }

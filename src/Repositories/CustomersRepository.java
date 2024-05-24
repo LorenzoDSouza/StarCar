@@ -240,7 +240,7 @@ public class CustomersRepository {
 	}
 	
 	public Customer updateFirstName(int customer_id, String newFirstName) {
-		String udapteFirstNameQuerry = "UPDATE customer SET first_name: " + newFirstName + " WHERE customer_id = " + customer_id;
+		String udapteFirstNameQuerry = "UPDATE customer SET first_name = '" + newFirstName + "' WHERE customer_id = " + customer_id;
 		int indexOfUpdate = -1;
 		
 		try {
@@ -265,17 +265,17 @@ public class CustomersRepository {
 				throw new AppException("There was a problem to udpate the customer in the customers list (API)");
 			}
 			
-			if (getById(customer_id).getFirst_name() == newFirstName && customers.get(indexOfUpdate).getFirst_name() == newFirstName) {
+			if (getById(customer_id).getFirst_name().equals(newFirstName) && customers.get(indexOfUpdate).getFirst_name().endsWith(newFirstName)) {
 				return customers.get(indexOfUpdate);
 			} else {
 				throw new AppException("Couldnt update the first name of the customer.");
 			}
 			
 		} catch (AppException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Couldnt update first name (AppException): " + e.getMessage());
 			return null;
 		} catch (SQLException e) {
-			System.err.println("Coulnd't execute the Querry. There was a problem with the Database (SQLException)!");
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database (SQLException): " +e.getMessage());
 			return null;
 		} catch (RuntimeException e) {
 			System.out.println("Couldnt update first name (RuntimeException): " + e.getMessage());
