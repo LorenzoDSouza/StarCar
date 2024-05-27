@@ -18,10 +18,10 @@ public class CustomersRepository {
 	// register -
 	// getById -
 	// deletebyI -
-	// updateFirstName <
-	// updateLastName
+	// updateFirstName -
+	// updateLastName -
 	// getLastId -
-	// getLastCustomer
+	// getLastCustomer -
 	// deleteLastCustomer -
 	// customersTableHasId(boolean) -
 
@@ -265,7 +265,7 @@ public class CustomersRepository {
 				throw new AppException("There was a problem to udpate the customer in the customers list (API)");
 			}
 			
-			if (getById(customer_id).getFirst_name().equals(newFirstName) && customers.get(indexOfUpdate).getFirst_name().endsWith(newFirstName)) {
+			if (getById(customer_id).getFirst_name().equals(newFirstName) && customers.get(indexOfUpdate).getFirst_name().equals(newFirstName)) {
 				return customers.get(indexOfUpdate);
 			} else {
 				throw new AppException("Couldnt update the first name of the customer.");
@@ -279,6 +279,50 @@ public class CustomersRepository {
 			return null;
 		} catch (RuntimeException e) {
 			System.out.println("Couldnt update first name (RuntimeException): " + e.getMessage());
+			return null;
+		}
+	}
+	
+	public Customer updateLastName(int customer_id, String newLastName) {
+		String udapteLastNameQuerry = "UPDATE customer SET last_name = '" + newLastName + "' WHERE customer_id = " + customer_id;
+		int indexOfUpdate = -1;
+		
+		try {
+			if (isValidId(customer_id) != true) {
+				throw new AppException("The customer id is invalid!");
+			}
+			if (newLastName == null) {
+				throw new AppException("The last name is invalid!");
+			}
+			
+			int rowsAffected = connection.statement.executeUpdate(udapteLastNameQuerry);
+			
+			for (int index = 0; index < customers.size(); index++) {
+				if (customers.get(index).getCustomer_id() == customer_id) {
+					customers.get(index).setLast_name(newLastName);;
+					indexOfUpdate = index;
+					break;
+				}
+			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the customer in the customers list (API)");
+			}
+			
+			if (getById(customer_id).getLast_name().equals(newLastName) && customers.get(indexOfUpdate).getLast_name().equals(newLastName)) {
+				return customers.get(indexOfUpdate);
+			} else {
+				throw new AppException("Couldnt update the last name of the customer.");
+			}
+			
+		} catch (AppException e) {
+			System.out.println("Couldnt update last name (AppException): " + e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database (SQLException): " +e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update last name (RuntimeException): " + e.getMessage());
 			return null;
 		}
 	}

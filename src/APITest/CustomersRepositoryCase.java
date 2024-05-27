@@ -61,5 +61,29 @@ class CustomersRepositoryCase {
 		assertEquals("Andre", cusRep.getLastCustomerDb().getFirst_name());
 	}
 	
+	@Test
+	void updateFirstNameWithInvalidString() {
+		assertEquals(cusRep.updateFirstName(cusRep.getLastId(), null), null);
+	}
 	
+	@Test
+	void updateFirstNameWithInvalidCustomerId() {
+		assertEquals(cusRep.updateFirstName(-1, null), null);
+	}
+	
+	@Test 
+	void updateLastName() {
+		cusRep.updateLastName(cusRep.getLastId(), "Santos");
+		assertEquals("Santos", cusRep.getLastCustomerDb().getLast_name());
+	}
+	
+	@Test
+	void updateLastNameWithInvalidString() {
+		assertEquals(cusRep.updateLastName(cusRep.getLastId(), null), null);
+	}
+	
+	@Test
+	void updateLastNameWithInvalidCustomerId() {
+		assertEquals(cusRep.updateLastName(-1, null), null);
+	}
 }
