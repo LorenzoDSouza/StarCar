@@ -120,7 +120,7 @@ public class CustomersRepository {
 		}
 	}
 
-	public Customer getLastCustomerDb() {// method for during using implementation
+	public Customer getLastCustomerDb() {
 		try {
 			String getLastCustomerQuerry = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 1;";
 

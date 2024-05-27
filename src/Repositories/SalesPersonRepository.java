@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Database.DbConnection;
+import Entities.Customer;
 import Entities.SalesPerson;
 import Exceptions.AppException;
 
@@ -81,7 +82,41 @@ public class SalesPersonRepository {
 		try {
 			connection.statement.executeUpdate(insertValueQuerry);
 			
-			//SalesPerson salesPerson = getLastSalesPerson();
+			SalesPerson salesPerson = getLastSalesPerson();
+			staff.add(salesPerson);
+			
+			return salesPerson;
+		} catch (SQLException e) {
+			System.out.println("There was a problem to execute the querry (SQLException): " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to register the sales person (RuntimeException): " + e.getMessage());
+			return null;
+		}
+	}
+	
+	public SalesPerson getLastSalesPerson() {
+		try {
+			String getLastSalesPersonQuerry = "SELECT * FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1;";
+
+			ResultSet resultSet = connection.statement.executeQuery(getLastSalesPersonQuerry);
+
+			if (resultSet.next()) {
+				SalesPerson salesPerson = createSalestPersonLogic(resultSet);
+				return salesPerson;
+			} else {
+				throw new AppException("The table is empty");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem to execute the querry (SQLException): " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the sales person (RuntimeException): " + e.getMessage());
+			return null;
+		} catch (AppException e) {
+			System.out.println("There was a problem to get the sales person (AppException): " + e.getMessage());
+			return null;
 		}
 	}
 	
