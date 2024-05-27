@@ -32,7 +32,7 @@ public class SalesPersonRepository {
 				
 	}
 	
-	public SalesPerson createSalestPersonLogic(ResultSet resultSet) {
+	public SalesPerson createSalesPersonLogic(ResultSet resultSet) {
 		
 		try {
 			int salesPerson_id = resultSet.getInt("salesPerson_id");
@@ -57,7 +57,7 @@ public class SalesPersonRepository {
 			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
 			
 			while (resultSet.next()) {
-				SalesPerson salesPerson = createSalestPersonLogic(resultSet);
+				SalesPerson salesPerson = createSalesPersonLogic(resultSet);
 				staff.add(salesPerson);
 			}
 			return staff;
@@ -96,7 +96,32 @@ public class SalesPersonRepository {
 	}
 	
 	public SalesPerson getById(int salesPerson_Id) {
+		String selectByIdQuerry = "SELECT * FROM salesperson WHERE salesPerson_id = " + salesPerson_Id;
 		
+		try {
+			if(!isValidId(salesPerson_Id)) {
+				throw new AppException("The salesPerson_id is invalid!");
+			}
+			
+			ResultSet resultSet = connection.statement.executeQuery(selectByIdQuerry);
+			
+			if (resultSet.next()) {
+				SalesPerson salesPerson = createSalesPersonLogic(resultSet);
+				return salesPerson;
+			} else {
+				throw new AppException("Couldnt execute the querry. None row was returned");		
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("There was a problem to select the Sales Person by the id (SQLException): " + e.getMessage());
+			return null;
+		} catch (AppException e) {
+			System.out.println("There was a problem to select the Sales Person by the id (AppException): " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to select the Sales Person by the id (RuntimeException): " + e.getMessage());
+			return null;
+		}
 	}
 	
 	public SalesPerson getLastSalesPerson() {
@@ -106,14 +131,14 @@ public class SalesPersonRepository {
 			ResultSet resultSet = connection.statement.executeQuery(getLastSalesPersonQuerry);
 
 			if (resultSet.next()) {
-				SalesPerson salesPerson = createSalestPersonLogic(resultSet);
+				SalesPerson salesPerson = createSalesPersonLogic(resultSet);
 				return salesPerson;
 			} else {
-				throw new AppException("The table is empty");
+				throw new AppException("Couldnt execute the querry. None row was returned");
 			}
 
 		} catch (SQLException e) {
-			System.out.println("There was a problem to execute last the querry (SQLException): " + e.getMessage());
+			System.out.println("There was a problem to get the last sales person (SQLException): " + e.getMessage());
 			return null;
 		} catch (RuntimeException e) {
 			System.out.println("There was a problem to get the last sales person (RuntimeException): " + e.getMessage());
@@ -125,9 +150,9 @@ public class SalesPersonRepository {
 	}
 	
 	public int getLastId() {
+		String getLastSalesPersonQuerry = "SELECT salesPerson_id FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1;";
+		
 		try {
-			String getLastSalesPersonQuerry = "SELECT salesPerson_id FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1;";
-
 			ResultSet resultSet = connection.statement.executeQuery(getLastSalesPersonQuerry);
 
 			if (resultSet.next()) {

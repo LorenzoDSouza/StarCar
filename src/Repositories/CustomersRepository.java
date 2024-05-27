@@ -104,8 +104,7 @@ public class CustomersRepository {
 				Customer customer = createCustomerLogic(resultSet);
 				return customer;
 			} else {
-				return null;// change by a future exception, after discover how the return of the next()
-							// method works
+				throw new AppException("Couldnt execute the querry. None row was returned");		
 			}
 
 		} catch (SQLException e) {
