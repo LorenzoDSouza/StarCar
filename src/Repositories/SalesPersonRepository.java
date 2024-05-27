@@ -48,5 +48,8 @@ public class SalesPersonRepository {
 		}
 	}
 	
-	
+	public ArrayList<SalesPerson> getAllStaff() {
+		ArrayList<SalesPerson> staff = new ArrayList<SalesPerson>();
+		String querrySelect = 
+	}
 }
