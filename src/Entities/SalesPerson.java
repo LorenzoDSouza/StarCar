@@ -21,11 +21,11 @@ public class SalesPerson {
 		this.payment = payment;
 	}
 	
-	public static SalesPerson Create (int salesPerson_id, String first_name, String last_name, Double payment) {
+	public static SalesPerson create (int salesPerson_id, String first_name, String last_name, Double payment) {
 		return new SalesPerson(salesPerson_id, first_name, last_name, payment);
 	}
 	
-	public static SalesPerson Create (String first_name, String last_name, Double payment) {
+	public static SalesPerson create (String first_name, String last_name, Double payment) {
 		return new SalesPerson(first_name, last_name, payment);
 	}
 

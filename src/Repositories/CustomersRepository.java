@@ -22,7 +22,7 @@ public class CustomersRepository {
 	// getLastId -
 	// getLastCustomer -
 	// deleteLastCustomer -
-	// customersTableHasId(boolean) -
+	// isValidId -
 
 	public CustomersRepository(String database) {
 		connection = new DbConnection(database);
@@ -39,10 +39,10 @@ public class CustomersRepository {
 			Customer customer = Customer.create(customer_id, first_name, last_name);
 
 			return customer;
-
 		} catch (Exception e) {
+			System.out.println("Couldnt return the Customer: " + e.getMessage());
 			return null;
-		}
+		} 
 	}
 
 	public ArrayList<Customer> getAllCustomers() {
