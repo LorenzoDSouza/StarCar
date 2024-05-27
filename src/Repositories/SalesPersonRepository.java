@@ -14,15 +14,15 @@ public class SalesPersonRepository {
 	private DbConnection connection;
 	private ArrayList<SalesPerson> staff;
 	
-	// getAllStaff
-	// register
+	// getAllStaff -
+	// register -
 	// getById
 	// deleteById
 	// updateFirstName
 	// updateLaststName
 	//updatePayment
 	// getLastId
-	// getlastSalesPerson
+	// getlastSalesPerson -
 	// deleteLastSalesPerson
 	// isValidId
 	
@@ -95,6 +95,8 @@ public class SalesPersonRepository {
 		}
 	}
 	
+	
+	
 	public SalesPerson getLastSalesPerson() {
 		try {
 			String getLastSalesPersonQuerry = "SELECT * FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1;";
@@ -109,14 +111,39 @@ public class SalesPersonRepository {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("There was a problem to execute the querry (SQLException): " + e.getMessage());
+			System.out.println("There was a problem to execute last the querry (SQLException): " + e.getMessage());
 			return null;
 		} catch (RuntimeException e) {
-			System.out.println("There was a problem to get the sales person (RuntimeException): " + e.getMessage());
+			System.out.println("There was a problem to get the last sales person (RuntimeException): " + e.getMessage());
 			return null;
 		} catch (AppException e) {
-			System.out.println("There was a problem to get the sales person (AppException): " + e.getMessage());
+			System.out.println("There was a problem to get the last sales person (AppException): " + e.getMessage());
 			return null;
+		}
+	}
+	
+	public int getLastId() {
+		try {
+			String getLastSalesPersonQuerry = "SELECT salesPerson_id FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1;";
+
+			ResultSet resultSet = connection.statement.executeQuery(getLastSalesPersonQuerry);
+
+			if (resultSet.next()) {
+				int lastId = resultSet.getInt("salesPerson_id");
+				return lastId; 
+			} else {
+				throw new AppException("Couldnt execute the querry. None row was returned");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem to get the last sales person id (SQLException): " + e.getMessage());
+			return 0;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the last sales person id (RuntimeException): " + e.getMessage());
+			return 0;
+		} catch (AppException e) {
+			System.out.println("There was a problem to get the last sales person id (AppException): " + e.getMessage());
+			return 0;
 		}
 	}
 	

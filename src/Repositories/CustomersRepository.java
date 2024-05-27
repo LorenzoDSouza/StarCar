@@ -134,13 +134,13 @@ public class CustomersRepository {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("There was a problem to execute the querry: " + e.getMessage());
+			System.out.println("There was a problem to get the last customer (SQLException): " + e.getMessage());
 			return null;
 		} catch (RuntimeException e) {
-			System.out.println("There was a problem to get the customer: " + e.getMessage());
+			System.out.println("There was a problem to get the last customer (RuntimeException): " + e.getMessage());
 			return null;
 		} catch (AppException e) {
-			System.out.println("There was a problem to get the customer: " + e.getMessage());
+			System.out.println("There was a problem to get the last customer (AppException): " + e.getMessage());
 			return null;
 		}
 	}
@@ -229,12 +229,15 @@ public class CustomersRepository {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Couldn't execute the querry (SQLException): " + e.getMessage());
+			System.out.println("There was a problem to get the last customer id (SQLException): " + e.getMessage());
+			return 0;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the last customer id (RuntimeException): " + e.getMessage());
 			return 0;
 		} catch (AppException e) {
-			System.out.println(e.getMessage());
+			System.out.println("There was a problem to get the last customer id (AppException): " + e.getMessage());
 			return 0;
-		} 
+		}
 
 	}
 	
