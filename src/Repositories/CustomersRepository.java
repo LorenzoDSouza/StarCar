@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Database.DbConnection;
-import Entities.Car;
 import Entities.Customer;
 import Exceptions.AppException;
 

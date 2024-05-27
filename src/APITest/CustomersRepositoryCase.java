@@ -84,6 +84,6 @@ class CustomersRepositoryCase {
 	
 	@Test
 	void updateLastNameWithInvalidCustomerId() {
-		assertEquals(cusRep.updateLastName(-1, null), null);
+		assertEquals(cusRep.updateLastName(-2, null), null);
 	}
 }
