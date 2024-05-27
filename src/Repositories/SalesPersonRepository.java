@@ -50,6 +50,42 @@ public class SalesPersonRepository {
 	
 	public ArrayList<SalesPerson> getAllStaff() {
 		ArrayList<SalesPerson> staff = new ArrayList<SalesPerson>();
-		String querrySelect = 
+		String querrySelect = "SELECT * FROM salesperson";
+		
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
+			
+			while (resultSet.next()) {
+				SalesPerson salesPerson = createSalestPersonLogic(resultSet);
+				staff.add(salesPerson);
+			}
+			return staff;
+		} catch (SQLException e) {
+			System.out.println("Couldn't execute querry!");
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get all the sales person");
+			return null;
+		}
 	}
+	
+	public ArrayList<SalesPerson> getStaff(){
+		return staff;
+	}
+	
+	public SalesPerson register(SalesPerson salesPersonParam) {
+		String insertValueQuerry = "INSERT INTO salesperson (first_name, last_name, payment) VALUES ('"
+				+ salesPersonParam.getFirst_name() + "', '" + salesPersonParam.getLast_name() + "', " 
+				+ salesPersonParam.getPayment() + ")";
+		
+		try {
+			connection.statement.executeUpdate(insertValueQuerry);
+			
+			//SalesPerson salesPerson = getLastSalesPerson();
+		}
+	}
+	
+	
+	
+	
 }
