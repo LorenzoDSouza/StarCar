@@ -21,7 +21,7 @@ public class SalesPersonRepository {
 	// updateFirstName
 	// updateLaststName
 	//updatePayment
-	// getLastId
+	// getLastId -
 	// getlastSalesPerson -
 	// deleteLastSalesPerson
 	// isValidId
@@ -95,7 +95,9 @@ public class SalesPersonRepository {
 		}
 	}
 	
-	
+	public SalesPerson getById(int salesPerson_Id) {
+		
+	}
 	
 	public SalesPerson getLastSalesPerson() {
 		try {
@@ -147,6 +149,36 @@ public class SalesPersonRepository {
 		}
 	}
 	
+	public boolean isValidId(int salesPerson_id) {
+		boolean staffListBoolean = false;
+		boolean databaseBoolean = false;
+
+		String getByIdsQuerry = "SELECT salesPerson_id FROM salesperson WHERE salesPerson_id = " + salesPerson_id;
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(getByIdsQuerry);
+
+			if (resultSet.next()) {
+				databaseBoolean = true;
+			}
+
+			for (SalesPerson salesPerson : staff) {
+				if (salesPerson_id == salesPerson.getSalesPerson_id()) {
+					staffListBoolean = true;
+					break;
+				}
+			}
+
+			return staffListBoolean && databaseBoolean;
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem to get the id (SQLException): " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the id (RuntimeException): " + e.getMessage());
+			return false;
+		}
+	
+	}
 	
 	
 	

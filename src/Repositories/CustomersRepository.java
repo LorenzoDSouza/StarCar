@@ -146,7 +146,7 @@ public class CustomersRepository {
 	}
 
 	public boolean isValidId(int customer_id) {
-		boolean stockBoolean = false;
+		boolean customersListBoolean = false;
 		boolean databaseBoolean = false;
 
 		String getByIdsQuerry = "SELECT customer_id FROM customer WHERE customer_id = " + customer_id;
@@ -159,12 +159,12 @@ public class CustomersRepository {
 
 			for (Customer customer : customers) {
 				if (customer_id == customer.getCustomer_id()) {
-					stockBoolean = true;
+					customersListBoolean = true;
 					break;
 				}
 			}
 
-			return stockBoolean && databaseBoolean;
+			return customersListBoolean && databaseBoolean;
 
 		} catch (SQLException e) {
 			System.out.println("There was a problem with the querry: " + e.getMessage());
