@@ -17,7 +17,7 @@ public class SalesPersonRepository {
 	// getAllStaff -
 	// register -
 	// getById
-	// deleteById
+	// deleteById 
 	// updateFirstName
 	// updateLaststName
 	//updatePayment
