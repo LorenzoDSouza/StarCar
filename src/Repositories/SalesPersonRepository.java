@@ -174,6 +174,23 @@ public class SalesPersonRepository {
 		}
 	}
 	
+	public boolean deleteLastSalesPerson() {
+		String deleteLastSalesPersonQuerry = "DELETE FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1"
+				
+				try {
+					connection.statement.executeUpdate(deleteLastSalesPersonQuerry);
+					
+					return true;
+				} catch (SQLException e) {
+					System.out.println("Couldn't delete the customer in the database (SQLException): " + e.getMessage());
+					return false;
+				} catch (RuntimeException e) {
+					System.out.println("Couldn't delete the customer (RuntimeLException): " + e.getMessage());
+					return false;
+				}
+	}
+	
+	
 	public boolean isValidId(int salesPerson_id) {
 		boolean staffListBoolean = false;
 		boolean databaseBoolean = false;
