@@ -208,7 +208,7 @@ public class CustomersRepository {
 
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Couldn't delete the customer in the database (SQLException): " + e.getMessage());
+			System.out.println("Couldn't delete the customer (SQLException): " + e.getMessage());
 			return false;
 		} catch (RuntimeException e) {
 			System.out.println("Couldn't delete the customer (RuntimeLException): " + e.getMessage());

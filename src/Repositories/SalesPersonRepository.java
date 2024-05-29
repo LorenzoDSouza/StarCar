@@ -175,17 +175,17 @@ public class SalesPersonRepository {
 	}
 	
 	public boolean deleteLastSalesPerson() {
-		String deleteLastSalesPersonQuerry = "DELETE FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1"
+		String deleteLastSalesPersonQuerry = "DELETE FROM salesperson ORDER BY salesPerson_id DESC LIMIT 1";
 				
 				try {
 					connection.statement.executeUpdate(deleteLastSalesPersonQuerry);
 					
 					return true;
 				} catch (SQLException e) {
-					System.out.println("Couldn't delete the customer in the database (SQLException): " + e.getMessage());
+					System.out.println("Couldn't delete the last sales person (SQLException): " + e.getMessage());
 					return false;
 				} catch (RuntimeException e) {
-					System.out.println("Couldn't delete the customer (RuntimeLException): " + e.getMessage());
+					System.out.println("Couldn't delete the last sales person (RuntimeLException): " + e.getMessage());
 					return false;
 				}
 	}
