@@ -2,6 +2,7 @@ package APITest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +20,17 @@ class SalesPersonReposirotyCase {
 		salesPersonRep.register(salesPerson1);
 	}
 	
+	@AfterEach
+	void tearDown() {
+		salesPersonRep.deleteLastSalesPerson();
+	}
 	
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void getById() {
+		
 	}
+	
+	
 
 	
 	
