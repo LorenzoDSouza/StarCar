@@ -26,12 +26,26 @@ class SalesPersonReposirotyCase {
 	}
 	
 	@Test
-	void getById() {
+	void getByIdLookingTheDataBase() {
+		SalesPerson salesPerson = salesPersonRep.getById(7);
 		
+		assertEquals(salesPerson.getFirst_name(), "James");
 	}
 	
+	@Test
+	void getByIdWithInvalidId() {
+		SalesPerson salesPerson = salesPersonRep.getById(-1);
+		
+		assertEquals(salesPerson, null);
+	}
 	
-
+	@Test
+	void getLastSalesPerson( ) {
+		SalesPerson salesPerson = salesPersonRep.getLastSalesPerson();
+		
+		assertEquals(salesPerson.getFirst_name(), "Lorenzo");
+	}
+	
 	
 	
 }

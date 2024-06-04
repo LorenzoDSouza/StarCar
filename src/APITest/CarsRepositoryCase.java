@@ -33,12 +33,12 @@ class CarsRepositoryCase {
 	}
 	
 	@Test
-	void getByIdLookingTheDataBaseTest() {//check if 
+	void getByIdLookingTheDataBase() {//check if 
 		assertEquals("Civic", carsRep.getById(1).getName());
 	}
 	
 	@Test
-	void registerNewCarTest() {//check if the car in the setUp method(BeforeEach) was registered succesfully
+	void registerNewCar() {//check if the car in the setUp method(BeforeEach) was registered succesfully
 		assertEquals("Civic Type R", carsRep.getLastCarDb().getName());
 	}
 	

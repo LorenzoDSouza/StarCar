@@ -20,15 +20,15 @@ public class SalesPersonRepository {
 	// deleteById
 	// updateFirstName
 	// updateLaststName
-	// updatePayment
+	// updatePayment 
 	// getLastId -
 	// getlastSalesPerson -
-	// deleteLastSalesPerson
+	// deleteLastSalesPerson -
 	// isValidId
 
 	public SalesPersonRepository(String database) {
 		connection = new DbConnection(database);
-		// staff = getAllStaff();
+		staff = getAllStaff();
 
 	}
 
