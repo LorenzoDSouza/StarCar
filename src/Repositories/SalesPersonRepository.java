@@ -263,5 +263,49 @@ public class SalesPersonRepository {
 		}
 
 	}
-
+	
+	public SalesPerson updateFirstName(int salesPerson_id, String newFirstName) {
+		String udapteFirstNameQuerry = "UPDATE salesperson SET first_name = '" + newFirstName + "' WHERE salesPerson_id = " + salesPerson_id;
+		int indexOfUpdate = -1;
+		
+		try {
+			if (isValidId(salesPerson_id) != true) {
+				throw new AppException("The sales person id is invalid!");
+			}
+			if (newFirstName == null) {
+				throw new AppException("The first name is invalid!");
+			}
+			
+			int rowsAffected = connection.statement.executeUpdate(udapteFirstNameQuerry);
+			
+			for (int index = 0; index < staff.size(); index++) {
+				if (staff.get(index).getSalesPerson_id() == salesPerson_id) {
+					staff.get(index).setFirst_name(newFirstName);;
+					indexOfUpdate = index;
+					break;
+				}
+			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the sales person first name in the customers list");
+			}
+			
+			if (getById(salesPerson_id).getFirst_name().equals(newFirstName) && staff.get(indexOfUpdate).getFirst_name().equals(newFirstName)) {
+				return staff.get(indexOfUpdate);
+			} else {
+				throw new AppException("Couldnt update the first name of the sales person.");
+			}
+			
+		} catch (AppException e) {
+			System.out.println("Couldnt update first name (AppException): " + e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database (SQLException): " +e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update first name (RuntimeException): " + e.getMessage());
+			return null;
+		}
+	}
+	
 }

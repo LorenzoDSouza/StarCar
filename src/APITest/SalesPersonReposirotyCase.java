@@ -26,24 +26,44 @@ class SalesPersonReposirotyCase {
 	}
 	
 	@Test
-	void getByIdLookingTheDataBase() {
+	void getByIdLookingTheDataBase() {//checks if the getById is working by looking some random value in the database and comparing
 		SalesPerson salesPerson = salesPersonRep.getById(7);
 		
 		assertEquals(salesPerson.getFirst_name(), "James");
 	}
 	
 	@Test
-	void getByIdWithInvalidId() {
+	void getByIdWithInvalidId() {//checks if the getById will return null if a invalid id is used as a parametter
 		SalesPerson salesPerson = salesPersonRep.getById(-1);
 		
-		assertEquals(salesPerson, null);
+		assertNull(salesPerson);
 	}
 	
 	@Test
-	void getLastSalesPerson( ) {
+	void getLastSalesPerson( ) {//check manually if the getLastSalesPerson method works
 		SalesPerson salesPerson = salesPersonRep.getLastSalesPerson();
 		
 		assertEquals(salesPerson.getFirst_name(), "Lorenzo");
+	}
+	
+	@Test
+	void deleteById() {//check if the deleteById method works
+		SalesPerson salesPerson = new SalesPerson("Andre", "Giuliano", 800.00);
+		salesPersonRep.register(salesPerson);
+		
+		int lastId = salesPersonRep.getLastId();
+		
+		assertEquals(salesPersonRep.getLastSalesPerson().getLast_name(), "Giuliano");
+		
+		salesPersonRep.deleteById(lastId);
+		
+		assertNotEquals(salesPersonRep.getLastSalesPerson().getLast_name(), "Giuliano");
+	}
+	
+	void deleteByIdWithInvalidId() {//checks if the method deleteById will return false if it could not delete a value because of a invalid id
+		 boolean deleted = salesPersonRep.deleteById(-1);
+		 
+		 assertFalse(deleted);
 	}
 	
 	
