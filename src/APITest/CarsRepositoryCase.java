@@ -38,6 +38,11 @@ class CarsRepositoryCase {
 	}
 	
 	@Test
+	void getByIdWithInvalidId() {//check if 
+		assertEquals(null, carsRep.getById(-1));
+	}
+	
+	@Test
 	void registerNewCar() {//check if the car in the setUp method(BeforeEach) was registered succesfully
 		assertEquals("Civic Type R", carsRep.getLastCarDb().getName());
 	}
