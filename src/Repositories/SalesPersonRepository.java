@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Database.DbConnection;
+import Entities.Car;
 import Entities.Customer;
 import Entities.SalesPerson;
 import Exceptions.AppException;
@@ -16,7 +17,7 @@ public class SalesPersonRepository {
 
 	// getAllStaff -
 	// register -
-	// getById
+	// getById -
 	// deleteById
 	// updateFirstName
 	// updateLaststName
@@ -24,7 +25,7 @@ public class SalesPersonRepository {
 	// getLastId -
 	// getlastSalesPerson -
 	// deleteLastSalesPerson -
-	// isValidId
+	// isValidId -
 
 	public SalesPersonRepository(String database) {
 		connection = new DbConnection(database);
@@ -90,8 +91,7 @@ public class SalesPersonRepository {
 			System.out.println("There was a problem to execute the querry (SQLException): " + e.getMessage());
 			return null;
 		} catch (RuntimeException e) {
-			System.out
-					.println("There was a problem to register the sales person (RuntimeException): " + e.getMessage());
+			System.out.println("There was a problem to register the sales person (RuntimeException): " + e.getMessage());
 			return null;
 		}
 	}
@@ -126,6 +126,43 @@ public class SalesPersonRepository {
 					"There was a problem to select the Sales Person by the id (RuntimeException): " + e.getMessage());
 			return null;
 		}
+	}
+	
+	public boolean deleteById(int salesPerson_id) {
+		String deleteByIdQuerry = "DELETE FROM salesPerson WHERE salesPerson_id = " + salesPerson_id;
+		boolean deleted = false;
+
+		try {
+			if(isValidId(salesPerson_id) == false) {
+				throw new AppException("The id is invalid!");
+			}
+			
+			connection.statement.executeUpdate(deleteByIdQuerry);
+
+			for (SalesPerson salesPerson : staff) {
+				if (salesPerson.getSalesPerson_id() == salesPerson_id) {
+					staff.remove(salesPerson);
+					deleted = true;
+					break;
+				}
+			}
+			
+			if(deleted == false) {
+				throw new AppException("None sales person was found on this id!");
+			}
+			
+			return deleted;
+		} catch (SQLException e) {
+			System.out.println("Couldn't delete the sales person (SQLException): " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("Couldn't delete the sales person (RuntimeException): " + e.getMessage());
+			return false;
+		} catch (AppException e) {
+			System.out.println("Couldn't delete the sales person (AppException): " + e.getMessage());
+			return false;
+		}
+		
 	}
 
 	public SalesPerson getLastSalesPerson() {

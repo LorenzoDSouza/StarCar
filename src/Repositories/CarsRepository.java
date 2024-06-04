@@ -113,24 +113,38 @@ public class CarsRepository {
 		}
 	}
 
-	public boolean deleteById(int id) {
-		String deleteByIdQuerry = "DELETE FROM car WHERE car_id = " + id;
+	public boolean deleteById(int car_id) {
+		String deleteByIdQuerry = "DELETE FROM car WHERE car_id = " + car_id;
 		boolean deleted = false;
 
 		try {
+			if(isValidId(car_id) == false) {
+				throw new AppException("The id is invalid!");
+			}
+			
 			connection.statement.executeUpdate(deleteByIdQuerry);
 
 			for (Car car : stock) {
-				if (car.getCar_Id() == id) {
+				if (car.getCar_Id() == car_id) {
 					stock.remove(car);
 					deleted = true;
 					break;
 				}
 			}
+			
+			if(deleted == false) {
+				throw new AppException("None car was found on this id!");
+			}
 
-			return true;
+			return deleted;
 		} catch (SQLException e) {
-			System.out.println("Couldn't delete the car in the database: " + e.getMessage());
+			System.out.println("Couldn't delete the car (SQLException): " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("Couldn't delete the car (RuntimeException): " + e.getMessage());
+			return false;
+		} catch (AppException e) {
+			System.out.println("Couldn't delete the car (AppException): " + e.getMessage());
 			return false;
 		}
 	}
@@ -143,7 +157,7 @@ public class CarsRepository {
 
 			return true;
 		} catch (Exception e) {
-			System.out.println("Couldn't delete the car in the database.");
+			System.out.println("Couldn't delete the car.");
 			return false;
 		}
 	}
