@@ -60,12 +60,37 @@ class SalesPersonReposirotyCase {
 		assertNotEquals(salesPersonRep.getLastSalesPerson().getLast_name(), "Giuliano");
 	}
 	
+	@Test
 	void deleteByIdWithInvalidId() {//checks if the method deleteById will return false if it could not delete a value because of a invalid id
 		 boolean deleted = salesPersonRep.deleteById(-1);
 		 
 		 assertFalse(deleted);
 	}
 	
+	@Test
+	void updateFirstName() {//checks if the first name will be updated correctly
+		int lastId = salesPersonRep.getLastId();
+		
+		salesPersonRep.updateFirstName(lastId, "Lourenço");
+		
+		assertEquals(salesPersonRep.getById(lastId).getFirst_name(),"Lourenço");
+	}
+	
+	@Test
+	void updateFirstNameWithInvalidStringReturningNull() {//checks if passing a invalid string, the method will return null
+		int lastId = salesPersonRep.getLastId();
+		
+		assertNull(salesPersonRep.updateFirstName(lastId, null));
+	}
+	
+	@Test
+	void updateFirstNameWithInvalidStringCheckingValue() {//checks if passing a invalid string, the value will no be updated
+		int lastId = salesPersonRep.getLastId();
+		
+		salesPersonRep.updateFirstName(lastId, null);
+		
+		assertNotNull(salesPersonRep.getById(lastId));
+	}
 	
 	
 }
