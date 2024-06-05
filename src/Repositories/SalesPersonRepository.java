@@ -308,4 +308,48 @@ public class SalesPersonRepository {
 		}
 	}
 	
+	public SalesPerson updateLastName(int salesPerson_id, String newLastName) {
+		String udapteLastNameQuerry = "UPDATE salesperson SET last_name = '" + newLastName + "' WHERE salesPerson_id = " + salesPerson_id;
+		int indexOfUpdate = -1;
+		
+		try {
+			if (isValidId(salesPerson_id) != true) {
+				throw new AppException("The sales person id is invalid!");
+			}
+			if (newLastName == null) {
+				throw new AppException("The last name is invalid!");
+			}
+			
+			int rowsAffected = connection.statement.executeUpdate(udapteLastNameQuerry);
+			
+			for (int index = 0; index < staff.size(); index++) {
+				if (staff.get(index).getSalesPerson_id() == salesPerson_id) {
+					staff.get(index).setLast_name(newLastName);;
+					indexOfUpdate = index;
+					break;
+				}
+			}
+			
+			if (indexOfUpdate == -1) {
+				throw new AppException("There was a problem to udpate the sales person last name in the customers list");
+			}
+			
+			if (getById(salesPerson_id).getLast_name().equals(newLastName) && staff.get(indexOfUpdate).getLast_name().equals(newLastName)) {
+				return staff.get(indexOfUpdate);
+			} else {
+				throw new AppException("Couldnt update the last name of the sales person.");
+			}
+			
+		} catch (AppException e) {
+			System.out.println("Couldnt update last name (AppException): " + e.getMessage());
+			return null;
+		} catch (SQLException e) {
+			System.err.println("Coulnd't execute the Querry. There was a problem with the Database (SQLException): " +e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("Couldnt update last name (RuntimeException): " + e.getMessage());
+			return null;
+		}
+	}
+	
 }
