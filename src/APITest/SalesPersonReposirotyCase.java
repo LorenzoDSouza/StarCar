@@ -88,7 +88,7 @@ class SalesPersonReposirotyCase {
 	}
 
 	@Test
-	void updateFirstNameWithInvalidStringCheckingValue() {// checks if passing a invalid string, the value will no be
+	void updateFirstNameWithInvalidStringCheckingValue() {// checks if passing a invalid string, the value will not be
 															// updated
 		int lastId = salesPersonRep.getLastId();
 
@@ -98,7 +98,7 @@ class SalesPersonReposirotyCase {
 	}
 
 	@Test
-	void updateLastName() {
+	void updateLastName() {//checks if the last name will be updated correctly
 		int lastId = salesPersonRep.getLastId();
 
 		salesPersonRep.updateLastName(lastId, "Kirst");
@@ -115,7 +115,7 @@ class SalesPersonReposirotyCase {
 	}
 
 	@Test
-	void updateLastNameWithInvalidStringCheckingValue() {// checks if passing a invalid string, the value will no be
+	void updateLastNameWithInvalidStringCheckingValue() {// checks if passing a invalid string, the value will not be
 															// updated
 		int lastId = salesPersonRep.getLastId();
 
@@ -124,6 +124,23 @@ class SalesPersonReposirotyCase {
 		assertNotNull(salesPersonRep.getById(lastId).getLast_name());
 	}
 	
+	@Test
+	void updatePayment() {
+		int lastId = salesPersonRep.getLastId();
+		
+		salesPersonRep.updatePayment(lastId, 900.50);
+		
+		assertEquals(salesPersonRep.getLastSalesPerson().getPayment(), 900.50);
+	}
+	
+	@Test
+	void updatePaymentWithInvalidDouble() {
+		int lastId = salesPersonRep.getLastId();
+		
+		salesPersonRep.updatePayment(lastId, -1000.30);
+		
+		assertNotEquals(salesPersonRep.getLastSalesPerson().getPayment(), -1000.30);
+	}
 	
 
 }
