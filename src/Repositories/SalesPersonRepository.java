@@ -21,7 +21,7 @@ public class SalesPersonRepository {
 	// deleteById
 	// updateFirstName -
 	// updateLaststName -
-	// updatePayment
+	// updatePayment -
 	// getLastId -
 	// getlastSalesPerson -
 	// deleteLastSalesPerson -
