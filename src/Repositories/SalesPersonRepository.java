@@ -45,7 +45,7 @@ public class SalesPersonRepository {
 
 			return salesPerson;
 		} catch (Exception e) {
-			System.out.println("Couldnt return the Sales Person: " + e.getMessage());
+			System.out.println("Couldnt create the Sales Person logic: " + e.getMessage());
 			return null;
 		}
 	}

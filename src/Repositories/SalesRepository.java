@@ -1,6 +1,7 @@
 package Repositories;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Database.DbConnection;
@@ -37,9 +38,34 @@ public class SalesRepository {
 			int salesPerson_id = resultSet.getInt("salesPerson_id");
 			int customer_id = resultSet.getInt("customer_id");
 			
+			Sale sale = Sale.create(sale_id, car_id, salesPerson_id, customer_id);
 			
+			return sale;
+		} catch(Exception e) {
+			System.out.println("Couldnt create the Sale logic: " + e.getMessage());
+			return null;
 		}
+	}
+	
+	public ArrayList<Sale> getAllSales(){
+		ArrayList<Sale> sales = new ArrayList<Sale>();
+		String querrySelect = "SELECT * FROM sale";
 		
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(querrySelect);
+			
+			while(resultSet.next()) {
+				Sale sale = createSaleLogic(resultSet);
+				sales.add(sale);
+			}
+			return sales;
+		}  catch (SQLException e) {
+			System.out.println("Couldn't execute querry: " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get all the sales person: " + e.getMessage());
+			return null;
+		}
 	}
 
 }
