@@ -76,7 +76,7 @@ public class SalesRepository {
 		int car_id = sale.getCar_id();
 		boolean isCarSold = carsRep.getById(car_id).getSoldValue();
 		
-		String 
+		String insertValueQuerry = "INSERT INTO sale ()"
 		
 		try {
 		if(isCarSold == true) {
