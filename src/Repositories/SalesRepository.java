@@ -14,10 +14,11 @@ public class SalesRepository {
 	private DbConnection connection;
 	private ArrayList<Sale> sales;
 	// getAllSales -
-	// register (need to have check if the car is already related to a sale)
+	// register (need to have check if the car is already related to a sale) --
 	// getById
 	// deleteById
-	// getLastSale
+	// getLastSale -
+	// deleteByIdGettingCarBack
 	// getLastId
 	// deleteLastSale
 	// idIsValid
@@ -100,6 +101,36 @@ public class SalesRepository {
 		}
 		
 	}
+	
+	public Sale getById(int sale_id) {
+		String selectByIdQuerry = "SELECT * FROM sale WHERE sale_id = " + sale_id;
+		
+		try {
+			//if (!isValidId(sale_id))
+			
+			ResultSet resultSet = connection.statement.executeQuery(selectByIdQuerry);
+			
+			if(resultSet.next()) {
+				Sale sale = createSaleLogic(resultSet);
+				return sale;
+			} else {
+				throw new AppException("Couldnt execute the querry. None row was returned");
+			}
+				
+		} catch (SQLException e) {
+			System.out.println(
+					"There was a problem to select the Sale by the id (SQLException): " + e.getMessage());
+			return null;
+		} catch (AppException e) {
+			System.out.println(
+					"There was a problem to select the Sale by the id (AppException): " + e.getMessage());
+			return null;
+		} catch (RuntimeException e) {
+			System.out.println(
+					"There was a problem to select the Sale by the id (RuntimeException): " + e.getMessage());
+			return null;
+		}
+	}
 
 	public Sale getLastSale() {
 		String getLastSaleQuerry = "SELECT * FROM sale ORDER BY sale_id DESC LIMIT 1;";
@@ -125,4 +156,6 @@ public class SalesRepository {
 			return null;
 		}
 	}
-}}
+
+}
+
