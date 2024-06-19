@@ -15,13 +15,13 @@ public class SalesRepository {
 	private ArrayList<Sale> sales;
 	// getAllSales -
 	// register (need to have check if the car is already related to a sale) --
-	// getById
-	// deleteById
+	// getById -
+	// deleteById 
 	// getLastSale -
 	// deleteByIdGettingCarBack
 	// getLastId
 	// deleteLastSale
-	// idIsValid
+	// idIsValid -
 	// updateSalesPersonId
 	// updateCustomerId
 	// updateCarId
@@ -188,6 +188,32 @@ public class SalesRepository {
 			return false;
 		}
 
+	}
+	
+	public int getLastId() {
+		String getLastSaleIdQuerry = "SELECT sales_id FROM sale ORDER BY sale_id DESC LIMIT 1;";
+
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(getLastSaleIdQuerry);
+
+			if (resultSet.next()) {
+				int lastId = resultSet.getInt("sale_id");
+				return lastId;
+			} else {
+				throw new AppException("Couldnt execute the querry. None row was returned");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem to get the last sale id (SQLException): " + e.getMessage());
+			return 0;
+		} catch (RuntimeException e) {
+			System.out.println(
+					"There was a problem to get the last sale id (RuntimeException): " + e.getMessage());
+			return 0;
+		} catch (AppException e) {
+			System.out.println("There was a problem to get the last sale id (AppException): " + e.getMessage());
+			return 0;
+		}
 	}
 
 }
