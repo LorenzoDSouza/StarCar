@@ -106,7 +106,9 @@ public class SalesRepository {
 		String selectByIdQuerry = "SELECT * FROM sale WHERE sale_id = " + sale_id;
 		
 		try {
-			//if (!isValidId(sale_id))
+			if (!isValidId(sale_id)) {
+				throw new AppException("The sale id is invalid");
+			}
 			
 			ResultSet resultSet = connection.statement.executeQuery(selectByIdQuerry);
 			
@@ -155,6 +157,37 @@ public class SalesRepository {
 			System.out.println("There was a problem to get the last sales (AppException): " + e.getMessage());
 			return null;
 		}
+	}
+	
+	public boolean isValidId(int sale_id) {
+		boolean salesListBoolean = false;
+		boolean databaseBoolean = false;
+
+		String getByIdsQuerry = "SELECT sale_id FROM sale WHERE sale_id = " + sale_id;
+		try {
+			ResultSet resultSet = connection.statement.executeQuery(getByIdsQuerry);
+
+			if (resultSet.next()) {
+				databaseBoolean = true;
+			}
+
+			for (Sale sale : sales) {
+				if (sale_id == sale.getSale_id()) {
+					salesListBoolean = true;
+					break;
+				}
+			}
+
+			return salesListBoolean && databaseBoolean;
+
+		} catch (SQLException e) {
+			System.out.println("There was a problem to get the id (SQLException): " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("There was a problem to get the id (RuntimeException): " + e.getMessage());
+			return false;
+		}
+
 	}
 
 }
