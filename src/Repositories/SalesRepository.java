@@ -13,6 +13,8 @@ public class SalesRepository {
 
 	private DbConnection connection;
 	private ArrayList<Sale> sales;
+	private CarsRepository carsRep;
+	
 	// getAllSales -
 	// register (need to have check if the car is already related to a sale) --
 	// getById -
@@ -20,15 +22,16 @@ public class SalesRepository {
 	// getLastSale -
 	// deleteByIdGettingCarBack
 	// getLastId
-	// deleteLastSale
+	// deleteLastSale - 
 	// idIsValid -
 	// updateSalesPersonId
 	// updateCustomerId
 	// updateCarId
 
-	public SalesRepository(String database) {
+	public SalesRepository(String database, CarsRepository carsRep) {
 		connection = new DbConnection(database);
 		sales = getAllSales();
+		this.carsRep = carsRep;
 	}
 
 	public Sale createSaleLogic(ResultSet resultSet) {
@@ -213,6 +216,22 @@ public class SalesRepository {
 		} catch (AppException e) {
 			System.out.println("There was a problem to get the last sale id (AppException): " + e.getMessage());
 			return 0;
+		}
+	}
+	
+	public boolean deleteLastSale () {
+		String deleteLastSaleQuerry = "DELETE FROM sale ORDER BY sale_id DESC LIMIT 1";
+		
+		try {
+			connection.statement.executeUpdate(deleteLastSaleQuerry);
+			
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Couldn't delete the sale (SQLException): " + e.getMessage());
+			return false;
+		} catch (RuntimeException e) {
+			System.out.println("Couldn't delete the sale (RuntimeLException): " + e.getMessage());
+			return false;
 		}
 	}
 
